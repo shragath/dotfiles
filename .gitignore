@@ -4,9 +4,9 @@
 # Except
 !.gitignore
 !.config/
-!.config/kitty
 !.config/nvim
 !.config/nvim/*
+!.config/kitty
 !.config/kitty/*
 !.zshrc
 !.latexmkrc
