@@ -9,3 +9,4 @@
 !.config/nvim/*
 !.config/kitty/*
 !.zshrc
+!.latexmkrc
