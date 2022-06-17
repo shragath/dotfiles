@@ -97,7 +97,7 @@ vim.keymap.set('n', '<leader>fh', '<cmd>lua require("telescope.builtin").help_ta
 })
 vim.keymap.set({ "n" }, "<leader>fm", '<cmd>lua require("telescope.builtin").keymaps()<cr>', { silent = true })
 -- Telescope session explorer
-vim.keymap.set('n', '<Leader>fs', '<cmd>SearchSession<CR>', {
+vim.keymap.set('n', '<Leader>fs', '<cmd>lua require("session-lens").search_session()<CR>', {
     noremap = true,
     silent = true
 })
@@ -125,7 +125,16 @@ vim.keymap.set({ "i", "s" }, "<C-l>", function()
 end, { silent = true })
 
 -- Hop
+vim.keymap.set('n', '<Space>c', '<cmd>HopChar1<cr>', {
+    noremap = true
+})
+vim.keymap.set('v', '<Space>c', '<cmd>HopChar1<cr>', {
+    noremap = true
+})
 vim.keymap.set('n', '<Space>s', '<cmd>HopChar2<cr>', {
+    noremap = true
+})
+vim.keymap.set('v', '<Space>s', '<cmd>HopChar2<cr>', {
     noremap = true
 })
 vim.keymap.set('n', '<Space>w', '<cmd>HopPattern<cr>', {
@@ -134,7 +143,12 @@ vim.keymap.set('n', '<Space>w', '<cmd>HopPattern<cr>', {
 vim.keymap.set('n', '<Space>l', '<cmd>HopLine<cr>', {
     noremap = true
 })
-
+vim.keymap.set('n', '<A-w>', '<cmd>HopWord<cr>', {
+    noremap = true
+})
+vim.keymap.set('v', '<A-w>', '<cmd>HopWord<cr>', {
+    noremap = true
+})
 
 -- Buffers
 -- Move to previous/next
@@ -202,3 +216,6 @@ vim.keymap.set('n', '<leader>ha', '<cmd>lua require("harpoon.mark").add_file()<c
 vim.keymap.set('n', '<leader>hm', '<cmd>lua require("harpoon.ui").toggle_quick_menu()<cr>', {
     noremap = true
 })
+
+-- Change working directory to the location of the current file
+vim.keymap.set('n', '<leader>cd', "<cmd>cd %:p:h<CR><cmd>pwd<CR>")

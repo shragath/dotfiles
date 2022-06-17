@@ -18,6 +18,8 @@ return require('packer').startup({
             'nvim-treesitter/nvim-treesitter',
             run = ':TSUpdate'
         }
+        use 'RRethy/nvim-treesitter-textsubjects'
+        use "ziontee113/syntax-tree-surfer"
 
         -- indentation guides
         use { 'lukas-reineke/indent-blankline.nvim', config = "require('config.indent-blankline')" }
@@ -88,10 +90,8 @@ return require('packer').startup({
             config = function()
                 require('auto-session').setup {
                     log_level = 'info',
-                    auto_session_suppress_dirs = { '~/', '~/Projects' },
-                    auto_session_enable_last_session = true,
+                    -- auto_session_enable_last_session = true,
                     auto_session_root_dir = vim.fn.stdpath('data') .. "/sessions/",
-                    auto_save_enabled = true
                 }
             end
         }
@@ -108,12 +108,12 @@ return require('packer').startup({
                 }
             end
         }
-        use {
-            'goolord/alpha-nvim',
-            config = function()
-                require("config.alpha-dashboard")
-            end
-        }
+        -- use {
+        --     'goolord/alpha-nvim',
+        --     config = function()
+        --         require("config.alpha-dashboard")
+        --     end
+        -- }
 
         -- Undo tree history
         use 'mbbill/undotree'

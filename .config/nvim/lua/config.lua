@@ -56,21 +56,18 @@ require('night-owl') -- Load colorscheme
 -- Autocommands
 -----------------------------------------------------------
 -- Set search highligh colors
-vim.cmd([[ autocmd VimEnter * highlight Search guibg=#434954 guifg=lightgray ]])
-
--- directory managmeent, including autochdir
-vim.cmd [[nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>]]
-vim.cmd [[autocmd BufEnter * silent! Glcd ]]
+vim.api.nvim_create_autocmd("VimEnter", { command = "highlight Search guibg=#434954 guifg=lightgray" })
 
 -- Highlight on yank
-vim.cmd([[
-  au TextYankPost * silent! lua vim.highlight.on_yank()
-]])
+vim.api.nvim_create_autocmd("TextYankPost", { command = "lua vim.highlight.on_yank()" })
 
 -- Rust Cargo run  shellescape(@%, 1)
-vim.api.nvim_exec([[autocmd FileType rust inoremap <buffer> <F9> <esc><cmd>w<cr><cmd>exec '!cargo run'<cr>]], false)
-vim.api.nvim_exec([[autocmd FileType rust noremap <buffer> <F10> <esc><cmd>w<cr><cmd>exec '!cargo run --bin' expand('%:t:r')<cr>]], false)
-vim.api.nvim_exec([[autocmd FileType rust noremap <buffer> <F9> <cmd>w<cr><cmd>exec '!cargo run'<cr>]], false)
+local r_group = vim.api.nvim_create_augroup("RustCompile", { clear = true })
+vim.api.nvim_create_autocmd("FileType", { pattern = "rust", callback = function()
+    vim.keymap.set('i', '<F9>', '<esc><cmd>w<cr><cmd>exec "!cargo run"<cr>')
+    vim.keymap.set('n', '<F9>', '<cmd>w<cr><cmd>exec "!cargo run"<cr>')
+    vim.keymap.set('n', '<F10>', '<esc><cmd>w<cr><cmd>exec "!cargo run --bin" expand("%:t:r")<cr>')
+end, group = r_group })
 
 -----------------------------------------------------------
 -- Latex
@@ -103,7 +100,6 @@ vim.o.showcmd = true
 
 -- Change blade.php to html filetype
 -- vim.cmd([[autocmd BufRead,BufNewFile *.blade.php set filetype=html]])
-
 
 -- Python 3 path
 vim.g.python3_host_prog = "/usr/bin/python3"

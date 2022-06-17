@@ -5,4 +5,3 @@ require 'keybinds'
 
 -- Configs
 require 'lsp.lsp'
--- require 'lsp.null-ls'
