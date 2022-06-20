@@ -95,7 +95,6 @@ require 'lspconfig'.tsserver.setup {
 
 }
 
--- set the path to the sumneko installation; if you previously installed via the now deprecated :LspInstall, use
 local sumneko_root_path = 'C:/Users/shrag/.servers/lua-language-server'
 if vim.fn.has("unix") then sumneko_root_path = '/home/shragath/lua-language-server/' end
 local sumneko_binary = sumneko_root_path .. "bin/lua-language-server"

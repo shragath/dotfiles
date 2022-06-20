@@ -19,7 +19,7 @@ return require('packer').startup({
             run = ':TSUpdate'
         }
         use 'RRethy/nvim-treesitter-textsubjects'
-        use "ziontee113/syntax-tree-surfer"
+        -- use "ziontee113/syntax-:tree-surfer"
 
         -- indentation guides
         use { 'lukas-reineke/indent-blankline.nvim', config = "require('config.indent-blankline')" }
@@ -79,10 +79,9 @@ return require('packer').startup({
             end
         }
 
-        use 'tpope/vim-sleuth'
-        use 'tpope/vim-abolish'
+        -- use 'tpope/vim-sleuth'
+        -- use 'tpope/vim-abolish'
         use 'tpope/vim-surround'
-        use 'tpope/vim-projectionist'
 
         -- Session manager
         use {
@@ -91,7 +90,6 @@ return require('packer').startup({
                 require('auto-session').setup {
                     log_level = 'info',
                     -- auto_session_enable_last_session = true,
-                    auto_session_root_dir = vim.fn.stdpath('data') .. "/sessions/",
                 }
             end
         }
@@ -108,12 +106,6 @@ return require('packer').startup({
                 }
             end
         }
-        -- use {
-        --     'goolord/alpha-nvim',
-        --     config = function()
-        --         require("config.alpha-dashboard")
-        --     end
-        -- }
 
         -- Undo tree history
         use 'mbbill/undotree'
@@ -123,7 +115,6 @@ return require('packer').startup({
 
         -- Git
         use 'tpope/vim-fugitive'
-        use 'tpope/vim-dispatch'
         use { 'lewis6991/gitsigns.nvim',
             config = function()
                 require('gitsigns').setup()
