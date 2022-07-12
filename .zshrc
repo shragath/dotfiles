@@ -104,6 +104,7 @@ plugins=(
   rbenv
   ruby
   zsh-autosuggestions
+  vi-mode
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -144,3 +145,4 @@ alias config='/usr/bin/git --git-dir=/home/shragath/.cfg/ --work-tree=/home/shra
 
 # Keybind
 bindkey '^Y' autosuggest-accept
+bindkey -v

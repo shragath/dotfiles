@@ -1,3 +1,10 @@
+-- Install packer if not installed
+local fn = vim.fn
+local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+if fn.empty(fn.glob(install_path)) > 0 then
+  packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+end
+
 return require('packer').startup({
     function(use)
 
@@ -19,7 +26,7 @@ return require('packer').startup({
             run = ':TSUpdate'
         }
         use 'RRethy/nvim-treesitter-textsubjects'
-        -- use "ziontee113/syntax-:tree-surfer"
+        -- use "ziontee113/syntax-tree-surfer"
 
         -- indentation guides
         use { 'lukas-reineke/indent-blankline.nvim', config = "require('config.indent-blankline')" }
@@ -79,8 +86,6 @@ return require('packer').startup({
             end
         }
 
-        -- use 'tpope/vim-sleuth'
-        -- use 'tpope/vim-abolish'
         use 'tpope/vim-surround'
 
         -- Session manager
@@ -89,7 +94,7 @@ return require('packer').startup({
             config = function()
                 require('auto-session').setup {
                     log_level = 'info',
-                    -- auto_session_enable_last_session = true,
+                    auto_session_enabled = false,
                 }
             end
         }
@@ -146,9 +151,6 @@ return require('packer').startup({
 
         -- Emmet
         use 'mattn/emmet-vim'
-
-        -- Laravel syntax highlighting
-        use 'jwalton512/vim-blade'
 
         -- Terminal
         use { 'akinsho/nvim-toggleterm.lua', config = "require('config.terminal')" }

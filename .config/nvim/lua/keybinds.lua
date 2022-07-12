@@ -199,14 +199,14 @@ vim.keymap.set('n', '<C-s>', '<cmd>BufferPick<CR>', {
 })
 
 -- Use <Tab> and <S-Tab> to navigate through popup menu
-vim.keymap.set('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', {
-    noremap = true,
-    expr = true
-})
-vim.keymap.set('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"', {
-    noremap = true,
-    expr = true
-})
+-- vim.keymap.set('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', {
+--     noremap = true,
+--     expr = true
+-- })
+-- vim.keymap.set('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"', {
+--     noremap = true,
+--     expr = true
+-- })
 
 -- Harpoon
 vim.keymap.set('n', '<leader>ha', '<cmd>lua require("harpoon.mark").add_file()<cr>', {

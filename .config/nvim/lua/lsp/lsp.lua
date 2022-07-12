@@ -1,34 +1,7 @@
 -- Enable debug
--- vim.lsp.set_log_level("debug")
+vim.lsp.set_log_level("debug")
 
 local nvim_lsp = require('lspconfig')
-local lsp_status = require('lsp-status')
-
--- Register the progress handler
-lsp_status.register_progress()
-lsp_status.config({
-    indicator_errors = 'E',
-    indicator_warnings = 'W',
-    indicator_info = 'i',
-    indicator_hint = '?',
-    indicator_ok = 'Ok',
-    select_symbol = function(cursor_pos, symbol)
-        if symbol.valueRange then
-            local value_range = {
-                ["start"] = {
-                    character = 0,
-                    line = vim.fn.byte2line(symbol.valueRange[1])
-                },
-                ["end"] = {
-                    character = 0,
-                    line = vim.fn.byte2line(symbol.valueRange[2])
-                }
-            }
-
-            return require("lsp-status.util").in_range(cursor_pos, value_range)
-        end
-    end
-})
 
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -71,7 +44,7 @@ capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "pyright", "intelephense", "vimls", "gopls", "rust_analyzer", "cssls", "tailwindcss", "texlab", "ltex" } -- denols tsserver
+local servers = { "pyright", "intelephense", "vimls", "gopls", "rust_analyzer", "cssls", "tailwindcss", "texlab", "ltex", "bashls" } -- denols tsserver
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
         on_attach = on_attach,

@@ -52,23 +52,17 @@ vim.o.updatetime = 50
 vim.opt.termguicolors = true -- Enable 24-bit RGB colors
 require('night-owl') -- Load colorscheme
 
+vim.api.nvim_set_hl(0, 'Search', { bg = '#536878' })
 -----------------------------------------------------------
 -- Autocommands
 -----------------------------------------------------------
--- Set search highligh colors
--- vim.api.nvim_create_autocmd("VimEnter", { command = "highlight Search guibg=#434954 guifg=lightgray" })
--- vim.api.nvim_set_hl()
-
--- Highlight on yank
--- vim.api.nvim_create_autocmd("TextYankPost", { command = "lua vim.highlight.on_yank()" })
-
 -- Rust Cargo run  shellescape(@%, 1)
--- local r_group = vim.api.nvim_create_augroup("RustCompile", { clear = true })
--- vim.api.nvim_create_autocmd("FileType", { pattern = "rust", callback = function()
---     vim.keymap.set('i', '<F9>', '<esc><cmd>w<cr><cmd>exec "!cargo run"<cr>')
---     vim.keymap.set('n', '<F9>', '<cmd>w<cr><cmd>exec "!cargo run"<cr>')
---     vim.keymap.set('n', '<F10>', '<esc><cmd>w<cr><cmd>exec "!cargo run --bin" expand("%:t:r")<cr>')
--- end, group = r_group })
+local r_group = vim.api.nvim_create_augroup("RustCompile", { clear = true })
+vim.api.nvim_create_autocmd("FileType", { pattern = "rust", callback = function()
+    vim.keymap.set('i', '<F9>', '<esc><cmd>w<cr><cmd>exec "!cargo run"<cr>')
+    vim.keymap.set('n', '<F9>', '<cmd>w<cr><cmd>exec "!cargo run"<cr>')
+    vim.keymap.set('n', '<F10>', '<esc><cmd>w<cr><cmd>exec "!cargo run --bin" expand("%:t:r")<cr>')
+end, group = r_group })
 
 -----------------------------------------------------------
 -- Latex

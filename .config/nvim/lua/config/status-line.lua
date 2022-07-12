@@ -154,9 +154,9 @@ statusline.setup({
         lualine_x = {
             -- uncomment to see TS info
             -- treesitter,
-            "require'lsp-status'.status()",
-            lsp_diag,
-            lsp_tbl
+            -- "require'lsp-status'.status()",
+            -- lsp_diag,
+            -- lsp_tbl
         },
         lualine_y = { { 'fileformat' }, { 'encoding' },
             -- char under cursor in hex

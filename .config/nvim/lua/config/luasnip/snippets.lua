@@ -51,7 +51,7 @@ ls.add_snippets("tex",
             t({ "\\begin{equation*}", "\t" }),
             i(1),
             t({ "", "\\end{equation*}" }),
-            t({"", ""}),
+            t({ "", "" }),
             i(0)
         }),
         s("math", {
@@ -131,3 +131,21 @@ ls.add_snippets("tex",
         -- }),
     }, { key = "tex" }
 )
+
+ls.add_snippets("rust", {
+    s("test",
+        fmt(
+            [[
+    #[test]
+    fn {}({}) {{
+        {}
+    }}
+    ]],
+            {
+                i(1, "name"),
+                i(2, "parameters"),
+                i(0, "code here"),
+            }
+        )
+    )
+}, { key = "rust" })
