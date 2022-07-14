@@ -6,18 +6,20 @@ sudo apt update -y && sudo apt upgrade -y
 DOTFILES_DIR="$HOME/.dotfiles"
 
 if ! [ -x "$(command -v git)"]; then
+    echo "Installing git";
     sudo add-apt-repository ppa:git-core/ppa
     sudo apt update
     sudo apt install git
 fi;
 
-function config {
-   /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME $@
-}
 
 if ! [[ -f "$DOTFILES_DIR/.zshrc" ]]; then
     echo "Installing dotfiles";
     git clone --bare https://github.com/shragath/dotfiles $HOME/.dotfiles
+
+    function config {
+       /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME $@
+    }
 
     mkdir -p .config-backup
     config checkout
