@@ -21,8 +21,6 @@ if ! [[ -d "$DOTFILES_DIR" ]]; then
     echo "Installing dotfiles";
     git clone --bare https://github.com/shragath/dotfiles $HOME/.dotfiles
 
-
-    mkdir -p .config-backup
     config checkout
 
     config checkout
@@ -31,6 +29,7 @@ fi
 
 if ! command -v nvim &> /dev/null; then
     echo "Installing nvim";
+    # Install build tools
     sudo apt-get install ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen
     cd ~
     git clone https://github.com/neovim/neovim
@@ -48,4 +47,6 @@ if ! command -v zsh &> /dev/null; then
     sudo apt install zsh -y
     echo "Installing oh-my-zsh";
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    # Create a symbolic link to add kitty to PATH
+    ln -s ~/.local/kitty.app/bin/kitty ~/.local/bin/
 fi
