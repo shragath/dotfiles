@@ -6,8 +6,7 @@ sudo apt update -y && sudo apt upgrade -y
 
 DOTFILES_DIR="$HOME/.dotfiles"
 
-if ! command -v git &> /dev/null
-then
+if ! command -v git &> /dev/null; then
     echo "Git not found, installing git";
     sudo add-apt-repository ppa:git-core/ppa
     sudo apt update
@@ -30,8 +29,7 @@ if ! [[ -d "$DOTFILES_DIR" ]]; then
     config config status.showUntrackedFiles no
 fi
 
-if ! command -v nvim &> /dev/null
-then
+if ! command -v nvim &> /dev/null; then
     echo "Installing nvim";
     sudo apt-get install ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen
     cd ~
@@ -40,12 +38,12 @@ then
     sudo make install
 fi
 
-if ! command -v kitty &> /dev/null then
+if ! command -v kitty &> /dev/null; then
     echo "Installing kitty";
     curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
 fi
 
-if ! [ -x command -v zsh &> /dev/null then
+if ! command -v zsh &> /dev/null; then
     echo "Installing zsh";
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
