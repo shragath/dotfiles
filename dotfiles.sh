@@ -55,6 +55,9 @@ if ! command -v kitty &> /dev/null; then
     # Update the paths to the kitty and its icon in the kitty.desktop file(s)
     sed -i "s|Icon=kitty|Icon=/home/$USER/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" ~/.local/share/applications/kitty*.desktop
     sed -i "s|Exec=kitty|Exec=/home/$USER/.local/kitty.app/bin/kitty|g" ~/.local/share/applications/kitty*.desktop
+
+    sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator `which kitty` 50
+    sudo update-alternatives --config x-terminal-emulator
 fi
 
 if ! command -v zsh &> /dev/null; then
@@ -62,4 +65,5 @@ if ! command -v zsh &> /dev/null; then
     sudo apt install zsh -y
     echo "Installing oh-my-zsh";
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    chsh -s $(which zsh)
 fi
