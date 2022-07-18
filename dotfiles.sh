@@ -40,6 +40,8 @@ fi
 if ! command -v kitty &> /dev/null; then
     echo "Installing kitty";
     curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+    # Create a symbolic link to add kitty to PATH
+    ln -s ~/.local/kitty.app/bin/kitty ~/.local/bin/
 fi
 
 if ! command -v zsh &> /dev/null; then
@@ -47,6 +49,4 @@ if ! command -v zsh &> /dev/null; then
     sudo apt install zsh -y
     echo "Installing oh-my-zsh";
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    # Create a symbolic link to add kitty to PATH
-    ln -s ~/.local/kitty.app/bin/kitty ~/.local/bin/
 fi
