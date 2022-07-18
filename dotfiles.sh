@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Install Config
+# curl -L https://raw.githubusercontent.com/shragath/dotfiles/main/dotfiles.sh | bash
 echo "Updating packages and upgrading";
 cd ~
 sudo apt update -y && sudo apt upgrade -y
