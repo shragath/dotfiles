@@ -45,5 +45,7 @@ fi
 
 if ! command -v zsh &> /dev/null; then
     echo "Installing zsh";
+    sudo apt install zsh
+    echo "Installing oh-my-zsh";
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
