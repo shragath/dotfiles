@@ -12,6 +12,10 @@ if ! [ -x "$(command -v git)"]; then
     sudo apt install git
 fi
 
+function config {
+   /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME $@
+}
+
 if ! [[ -f "$DOTFILES_DIR/.zshrc" ]]; then
     echo "Installing dotfiles";
     git clone --bare https://github.com/shragath/dotfiles $HOME/.dotfiles
@@ -30,10 +34,6 @@ if ! [[ -f "$DOTFILES_DIR/.zshrc" ]]; then
     config checkout
     config config status.showUntrackedFiles no
 fi
-
-function config {
-   /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME $@
-}
 
 if ! [ -x "$(command -v nvim)" ]; then
     echo "Installing nvim";
