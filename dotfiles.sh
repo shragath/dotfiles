@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo "Updating packages and upgrading";
+cd ~
 sudo apt update -y && sudo apt upgrade -y
 
 DOTFILES_DIR="$HOME/.dotfiles"
@@ -17,20 +18,13 @@ config() {
    /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME $@
 }
 
-if ! [[ -f "$DOTFILES_DIR/.zshrc" ]]; then
+if ! [[ -d "$DOTFILES_DIR" ]]; then
     echo "Installing dotfiles";
     git clone --bare https://github.com/shragath/dotfiles $HOME/.dotfiles
 
 
     mkdir -p .config-backup
     config checkout
-
-    if [ $? = 0 ]; then
-      echo "Checked out config.";
-    else
-        echo "Backing up pre-existing dot files.";
-        config checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .config-backup/{}
-    fi
 
     config checkout
     config config status.showUntrackedFiles no
