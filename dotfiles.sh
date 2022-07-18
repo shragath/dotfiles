@@ -43,6 +43,8 @@ if ! command -v kitty &> /dev/null; then
     echo "Installing kitty";
     curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
     # Create a symbolic link to add kitty to PATH
+    mkdir ~/.local/bin
+    echo 'PATH="$HOME/.local/bin/:$PATH"' >> ~/.zshrc
     ln -s ~/.local/kitty.app/bin/kitty ~/.local/bin/
 fi
 
