@@ -13,7 +13,7 @@ then
     sudo apt install git
 fi
 
-function config {
+config() {
    /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME $@
 }
 
