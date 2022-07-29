@@ -1,8 +1,8 @@
 -- Install packer if not installed
 local fn = vim.fn
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
-  packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    packer_bootstrap = fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
 end
 
 return require('packer').startup({
@@ -29,16 +29,18 @@ return require('packer').startup({
         -- use "ziontee113/syntax-tree-surfer"
 
         -- indentation guides
-        use { 'lukas-reineke/indent-blankline.nvim', config = "require('config.indent-blankline')" }
+        use { 'lukas-reineke/indent-blankline.nvim', config = "require('shragath.config.indent-blankline')" }
         -- Icons
         use 'ryanoasis/vim-devicons'
         use 'kyazdani42/nvim-web-devicons' -- for file icons
 
         -- Status Bar
-        use { 'nvim-lualine/lualine.nvim', config = "require('config.status-line')", }
+        use { 'nvim-lualine/lualine.nvim', config = "require('shragath.config.status-line')", }
 
         -- Themes
-        use 'Julpikar/night-owl.nvim'
+        use { 'Julpikar/night-owl.nvim', config = function()
+            require("night-owl")
+        end }
 
         -- Snippets
         use 'norcalli/snippets.nvim'
@@ -47,9 +49,13 @@ return require('packer').startup({
         use 'p00f/nvim-ts-rainbow'
 
         -- nvim lsppacker
-        use 'neovim/nvim-lspconfig'
+        use {
+            "williamboman/mason.nvim",
+            "williamboman/mason-lspconfig.nvim",
+            "neovim/nvim-lspconfig",
+        }
         use 'nvim-lua/lsp-status.nvim'
-        use { 'hrsh7th/nvim-cmp', config = "require('config.cmp')" }
+        use { 'hrsh7th/nvim-cmp', config = "require('shragath.config.cmp')" }
         use 'onsails/lspkind-nvim'
         -- Source
         use 'hrsh7th/cmp-nvim-lsp'
@@ -62,19 +68,19 @@ return require('packer').startup({
         use 'hrsh7th/cmp-cmdline'
         use 'f3fora/cmp-spell'
         -- Snippets
-        use { 'L3MON4D3/LuaSnip', config = "require('config.luasnip')" }
+        use { 'L3MON4D3/LuaSnip', config = "require('shragath.config.luasnip')" }
         use 'saadparwaiz1/cmp_luasnip'
 
         -- File search
         use 'nvim-lua/popup.nvim'
         use 'nvim-lua/plenary.nvim'
-        use { 'nvim-telescope/telescope.nvim', config = "require('config.telescope')" }
+        use { 'nvim-telescope/telescope.nvim', config = "require('shragath.config.telescope')" }
         use 'ThePrimeagen/harpoon'
 
-        -- LSP servers +
+        -- LSP servers
         use({
             "jose-elias-alvarez/null-ls.nvim",
-            config = "require('lsp.null-ls')",
+            -- config = "require('lsp.null-ls')",
             requires = { "nvim-lua/plenary.nvim" },
         })
 
@@ -86,7 +92,14 @@ return require('packer').startup({
             end
         }
 
-        use 'tpope/vim-surround'
+        use({
+            "kylechui/nvim-surround",
+            config = function()
+                require("nvim-surround").setup({
+                    -- Configuration here, or leave empty to use defaults
+                })
+            end
+        })
 
         -- Session manager
         use {
@@ -119,7 +132,9 @@ return require('packer').startup({
         use 'lambdalisue/suda.vim'
 
         -- Git
-        use 'tpope/vim-fugitive'
+        -- use 'tpope/vim-fugitive'
+        use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' }
+
         use { 'lewis6991/gitsigns.nvim',
             config = function()
                 require('gitsigns').setup()
@@ -153,7 +168,7 @@ return require('packer').startup({
         use 'mattn/emmet-vim'
 
         -- Terminal
-        use { 'akinsho/nvim-toggleterm.lua', config = "require('config.terminal')" }
+        use { 'akinsho/nvim-toggleterm.lua', config = "require('shragath.config.terminal')" }
 
         -- Signature help
         use 'ray-x/lsp_signature.nvim'
@@ -167,11 +182,11 @@ return require('packer').startup({
         }
 
         -- Buffer tabs
-        use { 'romgrk/barbar.nvim', config = "require('config.barbar')" }
+        use { 'romgrk/barbar.nvim', config = "require('shragath.config.barbar')" }
 
         -- makes vim autocomplete (), [], {}, '', ----, etc
         -- matches pairs of things (if-else, tags, etc)
-        use { "steelsojka/pears.nvim", config = "require('config.autopairs')" }
+        use { "steelsojka/pears.nvim", config = "require('shragath.config.autopairs')" }
 
     end
 })

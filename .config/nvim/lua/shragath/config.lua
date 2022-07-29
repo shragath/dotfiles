@@ -11,10 +11,13 @@ vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
 vim.g.snippets = "luasnip"
+vim.opt.swapfile = false
+vim.opt.backup = false
 
 -----------------------------------------------------------
 -- Neovim UI
 -----------------------------------------------------------
+vim.opt.guicursor = ""
 vim.opt.number = true -- Show line number
 vim.opt.showmatch = true -- Highlight matching parenthesis
 vim.opt.foldmethod = 'marker' -- Enable folding (default 'foldmarker')
@@ -26,15 +29,22 @@ vim.opt.smartcase = true -- Ignore lowercase for the whole pattern
 vim.opt.linebreak = true -- Wrap on word boundary
 vim.g.completion_trigger_keyword_length = 3 -- default = 1
 -- Set highlight on search
-vim.o.hlsearch = true
-vim.o.incsearch = true
+vim.opt.hlsearch = false
+vim.opt.incsearch = true
+vim.opt.cmdheight = 1 -- Give more space for displaying messages
+vim.opt.scrolloff = 8
+vim.opt.signcolumn = "yes"
+vim.opt.isfname:append("@-@")
+vim.opt.errorbells = false
+vim.opt.termguicolors = true -- Enable 24-bit RGB colors
 
 -----------------------------------------------------------
 -- Tabs, indent
 -----------------------------------------------------------
-vim.opt.expandtab = true -- Use spaces instead of tabs
-vim.opt.shiftwidth = 4 -- Shift 4 spaces when tab
 vim.opt.tabstop = 4 -- 1 tab == 4 spaces
+vim.opt.softtabstop = 4 -- Set tab options for vim
+vim.opt.shiftwidth = 4 -- Shift 4 spaces when tab
+vim.opt.expandtab = true -- Use spaces instead of tabs
 vim.opt.smartindent = true -- Autoindent new lines
 
 -----------------------------------------------------------
@@ -44,15 +54,8 @@ vim.opt.hidden = true -- Enable background buffers
 vim.opt.history = 100 -- Remember N lines in history
 vim.opt.lazyredraw = true -- Faster scrolling
 vim.opt.synmaxcol = 240 -- Max column for syntax highlight
-vim.o.updatetime = 50
+vim.opt.updatetime = 50 -- Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable delays and poor user experience
 
------------------------------------------------------------
--- Colorscheme
------------------------------------------------------------
-vim.opt.termguicolors = true -- Enable 24-bit RGB colors
-require('night-owl') -- Load colorscheme
-
-vim.api.nvim_set_hl(0, 'Search', { bg = '#536878' })
 -----------------------------------------------------------
 -- Autocommands
 -----------------------------------------------------------
@@ -80,8 +83,6 @@ vim.o.inccommand = "nosplit"
 -- Change backspace to behave more intuitively
 vim.o.backspace = "indent,eol,start"
 
--- Set tab options for vim
--- vim.o.softtabstop = 4
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -99,8 +100,8 @@ vim.o.showcmd = true
 -- Python 3 path
 vim.g.python3_host_prog = "/usr/bin/python3"
 
--- Avoid showing message extra message when using completion
-vim.o.shortmess = vim.o.shortmess .. "c"
+-- Don't pass messages to |ins-completion-menu|.
+vim.opt.shortmess:append("c")
 
 ---vim.g.python3_host_prog = "C:/Users/shrag/AppData/Local/Programs/Python/Python39/python.EXE"
 

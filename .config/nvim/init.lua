@@ -1,7 +1,2 @@
-require 'impatient'
-require 'config'
-require 'plugins'
-require 'keybinds'
-
--- Configs
-require 'lsp.lsp'
+require('impatient')
+require('shragath')
