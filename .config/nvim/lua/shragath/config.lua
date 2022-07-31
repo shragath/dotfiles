@@ -57,17 +57,6 @@ vim.opt.synmaxcol = 240 -- Max column for syntax highlight
 vim.opt.updatetime = 50 -- Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable delays and poor user experience
 
 -----------------------------------------------------------
--- Autocommands
------------------------------------------------------------
--- Rust Cargo run  shellescape(@%, 1)
-local r_group = vim.api.nvim_create_augroup("RustCompile", { clear = true })
-vim.api.nvim_create_autocmd("FileType", { pattern = "rust", callback = function()
-    vim.keymap.set('i', '<F9>', '<esc><cmd>w<cr><cmd>exec "!cargo run"<cr>')
-    vim.keymap.set('n', '<F9>', '<cmd>w<cr><cmd>exec "!cargo run"<cr>')
-    vim.keymap.set('n', '<F10>', '<esc><cmd>w<cr><cmd>exec "!cargo run --bin" expand("%:t:r")<cr>')
-end, group = r_group })
-
------------------------------------------------------------
 -- Latex
 -----------------------------------------------------------
 vim.g.vimtex_view_method = 'zathura'

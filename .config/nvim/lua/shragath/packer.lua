@@ -57,7 +57,6 @@ return require('packer').startup({
         use { 'simrat39/rust-tools.nvim', config = function()
             require('rust-tools').setup({})
         end }
-        use { 'nvim-telescope/telescope-ui-select.nvim' }
         -- Debugging
         use 'mfussenegger/nvim-dap'
 
