@@ -6,10 +6,11 @@ vim.keymap.set('n', '<Leader>s', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left>
 -- Search word under cursor
 vim.keymap.set('n', '<Leader>S', '/<C-r><C-w><cr>', { noremap = true })
 
--- Y yank until the end of line
-vim.keymap.set('n', 'Y', 'y$', {
-    noremap = true
-})
+-- Escape with Control + c
+vim.keymap.set('i', '<C-c>', '<Esc>', { noremap = true })
+
+-- greatest remap ever
+vim.keymap.set('x', '<leader>p', '\"_dP')
 
 -- Netrw file explorer
 vim.keymap.set('n', '-', '<cmd>Explore<cr>', {

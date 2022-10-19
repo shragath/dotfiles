@@ -2,12 +2,6 @@ export PATH="$PATH:$HOME/ltex-ls-15.2.0/bin"
 export PATH="/usr/local/texlive/2022/bin/x86_64-linux:$PATH"
 # export MANPATH="/usr/local/texlive/2022/texmf-dist/doc/man:$MANPATH"
 export INFOPATH="/usr/local/texlive/2022/texmf-dist/doc/info:$INFOPATH"
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -19,21 +13,23 @@ export ZSH="/home/shragath/.oh-my-zsh"
 export PATH="$PATH:/usr/local/go/bin"
 export PATH="$PATH:$HOME/go/bin"
 
+# Blender
+export PATH="$HOME/.local/blender-3.3.0-linux-x64/:$PATH"
+
 # Path to Python pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
 # Node Version Manager path
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_THEME="afowler"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -141,8 +137,9 @@ alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 
 
 alias luamake=/home/shragath/lua-language-server/3rd/luamake/luamake
-alias config='/usr/bin/git --git-dir=/home/shragath/.cfg/ --work-tree=/home/shragath'
+alias config='/usr/bin/git --git-dir=/home/shragath/.dotfiles/ --work-tree=/home/shragath'
 
 # Keybind
 bindkey '^Y' autosuggest-accept
 bindkey -v
+PATH="$HOME/.local/bin/:$PATH"

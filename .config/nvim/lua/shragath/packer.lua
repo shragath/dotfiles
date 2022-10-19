@@ -2,7 +2,8 @@
 local fn = vim.fn
 local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
-    packer_bootstrap = fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
+    packer_bootstrap = fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim',
+        install_path })
 end
 
 return require('packer').startup({
@@ -57,6 +58,7 @@ return require('packer').startup({
         use { 'simrat39/rust-tools.nvim', config = function()
             require('rust-tools').setup({})
         end }
+        use { 'nvim-telescope/telescope-ui-select.nvim' }
         -- Debugging
         use 'mfussenegger/nvim-dap'
 
@@ -181,7 +183,7 @@ return require('packer').startup({
 
         -- Show Colors
         use {
-            'norcalli/nvim-colorizer.lua',
+            'NvChad/nvim-colorizer.lua',
             config = function()
                 require('colorizer').setup()
             end
@@ -192,7 +194,7 @@ return require('packer').startup({
 
         -- makes vim autocomplete (), [], {}, '', ----, etc
         -- matches pairs of things (if-else, tags, etc)
-        use { "steelsojka/pears.nvim", config = "require('shragath.config.autopairs')" }
+        use { "windwp/nvim-autopairs", config = function() require('nvim-autopairs').setup {} end }
 
     end
 })

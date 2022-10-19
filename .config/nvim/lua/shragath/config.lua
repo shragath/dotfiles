@@ -19,6 +19,7 @@ vim.opt.backup = false
 -----------------------------------------------------------
 vim.opt.guicursor = ""
 vim.opt.number = true -- Show line number
+vim.opt.relativenumber = true
 vim.opt.showmatch = true -- Highlight matching parenthesis
 vim.opt.foldmethod = 'marker' -- Enable folding (default 'foldmarker')
 vim.opt.colorcolumn = '80' -- Line lenght marker at 80 columns
@@ -87,7 +88,7 @@ vim.o.showcmd = true
 -- vim.cmd([[autocmd BufRead,BufNewFile *.blade.php set filetype=html]])
 
 -- Python 3 path
-vim.g.python3_host_prog = "/usr/bin/python3"
+vim.g.python3_host_prog = "$PYENV_ROOT/bin:$PATH"
 
 -- Don't pass messages to |ins-completion-menu|.
 vim.opt.shortmess:append("c")

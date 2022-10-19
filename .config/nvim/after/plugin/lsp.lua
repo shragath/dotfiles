@@ -1,5 +1,5 @@
 -- Enable debug
-vim.lsp.set_log_level("debug")
+-- vim.lsp.set_log_level("debug")
 
 require("mason").setup()
 require("mason-lspconfig").setup()
@@ -33,7 +33,8 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wl',
+        '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
@@ -43,11 +44,12 @@ end
 
 -- The nvim-cmp almost supports LSP's capabilities so You should advertise it to LSP servers..
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "pyright", "intelephense", "vimls", "gopls", "rust_analyzer", "cssls", "tailwindcss", "texlab", "ltex", "bashls" } -- denols tsserver
+local servers = { "pyright", "intelephense", "vimls", "gopls", "rust_analyzer", "cssls", "tailwindcss", "texlab", "ltex",
+    "bashls", "omnisharp"} -- denols tsserver
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
         on_attach = on_attach,
@@ -68,19 +70,10 @@ require 'lspconfig'.tsserver.setup {
     flags = {
         debounce_text_changes = 150
     }
-
 }
 
-local sumneko_root_path = 'C:/Users/shrag/.servers/lua-language-server'
-if vim.fn.has("unix") then sumneko_root_path = '/home/shragath/lua-language-server/' end
-local sumneko_binary = sumneko_root_path .. "bin/lua-language-server"
-
-local runtime_path = vim.split(package.path, ';')
-table.insert(runtime_path, "lua/?.lua")
-table.insert(runtime_path, "lua/?/init.lua")
-
 require 'lspconfig'.sumneko_lua.setup {
-    cmd = { sumneko_binary, "-E", sumneko_root_path .. "/main.lua", "--preview" },
+    -- cmd = { sumneko_binary, "-E", sumneko_root_path .. "/main.lua", "--preview" },
     on_attach = on_attach,
     capabilities = capabilities,
     settings = {
@@ -88,8 +81,6 @@ require 'lspconfig'.sumneko_lua.setup {
             runtime = {
                 -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
                 version = 'LuaJIT',
-                -- Setup your lua path
-                path = runtime_path
             },
             diagnostics = {
                 -- Get the language server to recognize the `vim` global
@@ -106,4 +97,3 @@ require 'lspconfig'.sumneko_lua.setup {
         }
     }
 }
-
