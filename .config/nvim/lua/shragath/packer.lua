@@ -169,6 +169,9 @@ return require('packer').startup({
             end
         }
 
+        -- Jupyter notebook support
+        use { 'dccsillag/magma-nvim', run = ':UpdateRemotePlugins', opt = true }
+
         -- Latex support
         use { 'lervag/vimtex' }
 
@@ -176,7 +179,9 @@ return require('packer').startup({
         use 'mattn/emmet-vim'
 
         -- Terminal
-        use { 'akinsho/nvim-toggleterm.lua', config = "require('shragath.config.terminal')" }
+        use { 'akinsho/nvim-toggleterm.lua', tag = '*', config = function()
+            require("toggleterm").setup()
+        end }
 
         -- Signature help
         use 'ray-x/lsp_signature.nvim'

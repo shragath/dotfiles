@@ -88,7 +88,7 @@ vim.o.showcmd = true
 -- vim.cmd([[autocmd BufRead,BufNewFile *.blade.php set filetype=html]])
 
 -- Python 3 path
-vim.g.python3_host_prog = "$PYENV_ROOT/bin:$PATH"
+-- vim.g.python3_host_prog = "/home/shragath/.pyenv/bin"
 
 -- Don't pass messages to |ins-completion-menu|.
 vim.opt.shortmess:append("c")
