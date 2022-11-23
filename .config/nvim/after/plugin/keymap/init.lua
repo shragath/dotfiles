@@ -12,10 +12,11 @@ vim.keymap.set('i', '<C-c>', '<Esc>', { noremap = true })
 -- greatest remap ever
 vim.keymap.set('x', '<leader>p', '\"_dP')
 
--- -- Netrw file explorer
--- vim.keymap.set('n', '-', '<cmd>Explore<cr>', {
---     noremap = true,
--- })
+-- Netrw file explorer
+vim.keymap.set({ 'n', 'i' }, '<leader>tr', '<cmd>TroubleToggle<CR>', {
+    noremap = true,
+    silent = true
+})
 
 -- Deletes extra spaces at end of lines
 vim.keymap.set('n', '<Space>ds', '<cmd>%s/\\s\\+$//e<CR>', {
@@ -33,7 +34,7 @@ vim.keymap.set('n', '<Leader>ut', '<cmd>UndotreeToggle<CR>', {
 vim.keymap.set('t', '<Space><esc>', '<C-\\><C-n>', {
     noremap = true
 })
-vim.keymap.set({'n', 't'}, '<c-\\>', '<cmd>ToggleTerm size=20 direction=horizontal<cr>')
+vim.keymap.set({ 'n', 't' }, '<c-\\>', '<cmd>ToggleTerm size=20 direction=horizontal<cr>')
 
 -- Opens terminal bottom
 vim.keymap.set('n', '<S-t>', ':botright split | term<CR>', { noremap = true })

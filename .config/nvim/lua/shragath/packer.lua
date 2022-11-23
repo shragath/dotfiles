@@ -39,10 +39,24 @@ return require('packer').startup({
         use { 'nvim-lualine/lualine.nvim', config = "require('shragath.config.status-line')", }
 
         -- Themes
-        use { 'Julpikar/night-owl.nvim', config = function()
-            require("night-owl")
+        -- use { 'Julpikar/night-owl.nvim', config = function()
+        --     require("night-owl")
+        -- end }
+        use { "EdenEast/nightfox.nvim", config = function()
+            require("nightfox").setup({
+                palettes = {
+                    -- Custom nightfox with darkened background
+                    nightfox = {
+                        bg1 = "#011627", -- Black background
+                        -- bg0 = "#011627", -- Alt backgrounds (floats, statusline, ...)
+                        -- bg3 = "#121820", -- 55% darkened from stock
+                        -- sel0 = "#131b24", -- 55% darkened from stock
+                        visual = "#1b3b51",
+                    },
+                },
+            })
+            vim.cmd("colorscheme nightfox")
         end }
-
         -- Snippets
         use 'norcalli/snippets.nvim'
 
@@ -155,12 +169,15 @@ return require('packer').startup({
                 require("stabilize").setup()
             end
         }
-        use {
-            'phaazon/hop.nvim',
-            config = function()
-                require('hop').setup()
-            end
-        }
+        -- use {
+        --     'phaazon/hop.nvim',
+        --     config = function()
+        --         require('hop').setup()
+        --     end
+        -- }
+        use { "ggandor/leap.nvim", config = function()
+            require('leap').add_default_mappings()
+        end }
         use {
             "folke/trouble.nvim",
             requires = "kyazdani42/nvim-web-devicons",
