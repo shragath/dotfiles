@@ -1,12 +1,4 @@
--- Install packer if not installed
-local fn = vim.fn
-local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-if fn.empty(fn.glob(install_path)) > 0 then
-    packer_bootstrap = fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim',
-        install_path })
-end
-
-return require('packer').startup({
+return require('packer').startup(
     function(use)
 
         -- Packer can manage itself
@@ -15,8 +7,6 @@ return require('packer').startup({
         -- Speed up require in Lua
         use 'lewis6991/impatient.nvim'
 
-        -- Tree file explorer
-        use { "nvim-telescope/telescope-file-browser.nvim" }
 
         -- Start up time
         use 'dstein64/vim-startuptime'
@@ -26,6 +16,7 @@ return require('packer').startup({
             'nvim-treesitter/nvim-treesitter',
             run = ':TSUpdate'
         }
+        use('nvim-treesitter/playground')
         use 'RRethy/nvim-treesitter-textsubjects'
         -- use "ziontee113/syntax-tree-surfer"
 
@@ -57,54 +48,57 @@ return require('packer').startup({
             })
             vim.cmd("colorscheme nightfox")
         end }
-        -- Snippets
-        use 'norcalli/snippets.nvim'
 
         -- Rainbow Parentheses
         use 'p00f/nvim-ts-rainbow'
 
-        -- nvim lsppacker
+        -- LSP servers
         use {
-            'williamboman/mason.nvim',
-            'williamboman/mason-lspconfig.nvim',
-            'neovim/nvim-lspconfig',
+            'VonHeikemen/lsp-zero.nvim',
+            requires = {
+                -- LSP Support
+                { 'neovim/nvim-lspconfig' },
+                { 'williamboman/mason.nvim' },
+                { 'williamboman/mason-lspconfig.nvim' },
+
+                -- Autocompletion
+                { 'hrsh7th/nvim-cmp' },
+                { 'hrsh7th/cmp-buffer' },
+                { 'hrsh7th/cmp-path' },
+                { 'saadparwaiz1/cmp_luasnip' },
+                { 'hrsh7th/cmp-nvim-lsp' },
+                { 'hrsh7th/cmp-nvim-lua' },
+
+                -- Snippets
+                { 'L3MON4D3/LuaSnip' },
+                { 'rafamadriz/friendly-snippets' },
+            }
         }
-        use { 'simrat39/rust-tools.nvim', config = function()
-            require('rust-tools').setup({})
-        end }
+        use {
+            "jose-elias-alvarez/null-ls.nvim",
+            "jayp0521/mason-null-ls.nvim",
+        }
+        use { 'simrat39/rust-tools.nvim' }
         use { 'nvim-telescope/telescope-ui-select.nvim' }
-        -- Debugging
+        -- Debugging -- To Do
         use 'mfussenegger/nvim-dap'
 
         use 'nvim-lua/lsp-status.nvim'
-        use { 'hrsh7th/nvim-cmp', config = "require('shragath.config.cmp')" }
+        -- use { 'hrsh7th/nvim-cmp', config = "require('shragath.config.cmp')" }
         use 'onsails/lspkind-nvim'
-        -- Source
-        use 'hrsh7th/cmp-nvim-lsp'
-        use 'hrsh7th/cmp-buffer'
-        use 'hrsh7th/cmp-path'
-        use 'hrsh7th/cmp-nvim-lua'
-        use 'hrsh7th/cmp-emoji'
-        use 'kdheepak/cmp-latex-symbols'
-        use 'hrsh7th/cmp-calc'
-        use 'hrsh7th/cmp-cmdline'
-        use 'f3fora/cmp-spell'
         -- Snippets
-        use { 'L3MON4D3/LuaSnip', config = "require('shragath.config.luasnip')" }
-        use 'saadparwaiz1/cmp_luasnip'
+        -- use { 'L3MON4D3/LuaSnip', config = "require('shragath.config.luasnip')" }
 
         -- File search
         use 'nvim-lua/popup.nvim'
         use 'nvim-lua/plenary.nvim'
         use { 'nvim-telescope/telescope.nvim', config = "require('shragath.config.telescope')" }
+        -- Tree file explore
+        use { "nvim-telescope/telescope-file-browser.nvim" }
+        -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
+        use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
         use 'ThePrimeagen/harpoon'
 
-        -- LSP servers
-        use({
-            "jose-elias-alvarez/null-ls.nvim",
-            -- config = "require('lsp.null-ls')",
-            requires = { "nvim-lua/plenary.nvim" },
-        })
 
         -- Comment
         use {
@@ -114,14 +108,15 @@ return require('packer').startup({
             end
         }
 
-        use({
+        -- Add/change surrounds
+        use {
             "kylechui/nvim-surround",
             config = function()
                 require("nvim-surround").setup({
                     -- Configuration here, or leave empty to use defaults
                 })
             end
-        })
+        }
 
         -- Session manager
         use {
@@ -135,7 +130,7 @@ return require('packer').startup({
         }
         use {
             'rmagatti/session-lens',
-            requires = { 'rmagatti/auto-session', 'nvim-telescope/telescope.nvim' },
+            -- requires = { 'rmagatti/auto-session', 'nvim-telescope/telescope.nvim' },
             config = function()
                 require('session-lens').setup {
                     -- path_display = {'shorten'},
@@ -154,8 +149,9 @@ return require('packer').startup({
         use 'lambdalisue/suda.vim'
 
         -- Git
-        -- use 'tpope/vim-fugitive'
-        use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' }
+        use 'tpope/vim-fugitive'
+        use 'tpope/vim-rhubarb'
+        use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
 
         use { 'lewis6991/gitsigns.nvim',
             config = function()
@@ -169,12 +165,8 @@ return require('packer').startup({
                 require("stabilize").setup()
             end
         }
-        -- use {
-        --     'phaazon/hop.nvim',
-        --     config = function()
-        --         require('hop').setup()
-        --     end
-        -- }
+
+        -- move motions
         use { "ggandor/leap.nvim", config = function()
             require('leap').add_default_mappings()
         end }
@@ -193,7 +185,7 @@ return require('packer').startup({
         use { 'lervag/vimtex' }
 
         -- Emmet
-        use 'mattn/emmet-vim'
+        use({ 'mattn/emmet-vim', opt = true })
 
         -- Terminal
         use { 'akinsho/nvim-toggleterm.lua', tag = '*', config = function()
@@ -219,4 +211,4 @@ return require('packer').startup({
         use { "windwp/nvim-autopairs", config = function() require('nvim-autopairs').setup {} end }
 
     end
-})
+)

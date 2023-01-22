@@ -3,16 +3,18 @@
 -----------------------------------------------------------
 vim.opt.mouse = 'a' -- Enable mouse support
 vim.opt.clipboard = 'unnamedplus' -- Copy/paste to system clipboard
-vim.opt.swapfile = false -- Don't use swapfile
 vim.opt.completeopt = { "menu", "menuone", "noselect" } -- Autocomplete options
--- vim.g.loaded_netrw = 1 -- Turn off file explorer netrw
+vim.g.loaded_netrw = 1 -- Turn off file explorer netrw
 -- vim.g.loaded_netrwPlugin = 1
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
 vim.g.snippets = "luasnip"
-vim.opt.swapfile = false
+vim.opt.swapfile = false -- Don't use swapfile
 vim.opt.backup = false
+-- vim.g.mapleader = "\"
+vim.opt.undodir = os.getenv("HOME") .. "/.nvim/undodir"
+vim.opt.undofile = true
 
 -----------------------------------------------------------
 -- Neovim UI
@@ -64,8 +66,6 @@ vim.g.vimtex_view_method = 'zathura'
 vim.g.tex_flavor = 'latex'
 
 -----------------------------------------------------------
--- Allow filetype plugins and syntax highlighting
--- vim.o.autoindent = true
 
 -- Incremental live completion
 vim.o.inccommand = "nosplit"
@@ -91,37 +91,37 @@ vim.o.showcmd = true
 -- vim.g.python3_host_prog = "/home/shragath/.pyenv/bin"
 
 -- Don't pass messages to |ins-completion-menu|.
-vim.opt.shortmess:append("c")
+-- vim.opt.shortmess:append("c")
 
 ---vim.g.python3_host_prog = "C:/Users/shrag/AppData/Local/Programs/Python/Python39/python.EXE"
 
 -- Chain completion list
-vim.g.completion_chain_complete_list = {
-    default = {
-        default = {
-            {
-                complete_items = { 'lsp', 'snippet' }
-            }, {
-                mode = '<c-p>'
-            }, {
-                mode = '<c-n>'
-            }
-        },
-        comment = {},
-        string = {
-            {
-                complete_items = { 'path' }
-            }
-        }
-    }
-}
-
-vim.g.indentLine_faster = 1
-vim.g.indentLine_setConceal = 2
-vim.g.indentLine_concealcursor = ""
-vim.g.indentLine_bufNameExclude = { "term:.*" }
-
-vim.g.user_emmet_leader_key = '<C-Z>'
-
--- Custom plugin config
+-- vim.g.completion_chain_complete_list = {
+--     default = {
+--         default = {
+--             {
+--                 complete_items = { 'lsp', 'snippet' }
+--             }, {
+--                 mode = '<c-p>'
+--             }, {
+--                 mode = '<c-n>'
+--             }
+--         },
+--         comment = {},
+--         string = {
+--             {
+--                 complete_items = { 'path' }
+--             }
+--         }
+--     }
+-- }
+--
+-- vim.g.indentLine_faster = 1
+-- vim.g.indentLine_setConceal = 2
+-- vim.g.indentLine_concealcursor = ""
+-- vim.g.indentLine_bufNameExclude = { "term:.*" }
+--
+-- vim.g.user_emmet_leader_key = '<C-Z>'
+--
+-- -- Custom plugin config
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"

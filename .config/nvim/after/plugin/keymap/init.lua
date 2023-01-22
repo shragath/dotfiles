@@ -3,8 +3,6 @@ vim.api.nvim_command('command C let @/=""')
 
 -- Search and replace word under cursor
 vim.keymap.set('n', '<Leader>s', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>', { noremap = true })
--- Search word under cursor
-vim.keymap.set('n', '<Leader>S', '/<C-r><C-w><cr>', { noremap = true })
 
 -- Escape with Control + c
 vim.keymap.set('i', '<C-c>', '<Esc>', { noremap = true })
@@ -12,14 +10,31 @@ vim.keymap.set('i', '<C-c>', '<Esc>', { noremap = true })
 -- greatest remap ever
 vim.keymap.set('x', '<leader>p', '\"_dP')
 
--- Netrw file explorer
+-- Center view
+vim.keymap.set('n', '<C-d>', '<C-d>zz', {
+    noremap = true
+})
+vim.keymap.set('n', '<C-u>', '<C-u>zz', {
+    noremap = true
+})
+vim.keymap.set("n", "n", "nzzzv")
+vim.keymap.set("n", "N", "Nzzzv")
+
+vim.keymap.set("n", "<leader>y", "\"+y")
+vim.keymap.set("v", "<leader>y", "\"+y")
+vim.keymap.set("n", "<leader>Y", "\"+Y")
+
+vim.keymap.set("n", "<leader>d", "\"_d")
+vim.keymap.set("v", "<leader>d", "\"_d")
+
+-- Trouble
 vim.keymap.set({ 'n', 'i' }, '<leader>tr', '<cmd>TroubleToggle<CR>', {
     noremap = true,
     silent = true
 })
 
 -- Deletes extra spaces at end of lines
-vim.keymap.set('n', '<Space>ds', '<cmd>%s/\\s\\+$//e<CR>', {
+vim.keymap.set('n', '<Space>ds', ':%s/\\s\\+$//e<CR>', {
     noremap = true,
     silent = true
 })
@@ -40,24 +55,8 @@ vim.keymap.set({ 'n', 't' }, '<c-\\>', '<cmd>ToggleTerm size=20 direction=horizo
 vim.keymap.set('n', '<S-t>', ':botright split | term<CR>', { noremap = true })
 
 -- Add move line shortcuts
-vim.keymap.set('n', '<A-j>', '<cmd>m .+1<CR>==', {
-    noremap = true
-})
-vim.keymap.set('n', '<A-k>', '<cmd>m .-2<CR>==', {
-    noremap = true
-})
-vim.keymap.set('i', '<A-j>', '<Esc><cmd>m .+1<CR>==gi', {
-    noremap = true
-})
-vim.keymap.set('i', '<A-k>', '<Esc><cmd>m .-2<CR>==gi', {
-    noremap = true
-})
-vim.keymap.set('v', '<A-j>', '<cmd>m \'>+1<CR>gv=gv', {
-    noremap = true
-})
-vim.keymap.set('v', '<A-k>', '<cmd>m \'<-2<CR>gv=gv', {
-    noremap = true
-})
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- Move in quikfix list
 vim.keymap.set('n', '<A-q>', '<cmd>copen<CR>', {

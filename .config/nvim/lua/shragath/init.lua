@@ -9,10 +9,12 @@ local csharp_group = vim.api.nvim_create_augroup("csharpAU", { clear = true })
 local py_group = vim.api.nvim_create_augroup("PythonAU", { clear = true })
 local buf_group = vim.api.nvim_create_augroup('bufcheck', { clear = true })
 
+local opts = { noremap = true, silent = true }
+
 vim.api.nvim_create_autocmd("FileType", { pattern = "rust", callback = function()
     vim.keymap.set({ 'n', 'i' }, '<F10>', '<cmd>TermExec cmd="cargo test" size=60<cr>')
     vim.keymap.set({ 'n', 'i' }, '<F9>', '<cmd>TermExec cmd="cargo run" size=60<cr>')
-    vim.keymap.set('n', '<F11>', '<cmd>TermExec cmd="cargo run --bin expand("%:t:r")"  size=60<cr>')
+    vim.keymap.set('n', '<F11>', '<cmd>TermExec cmd="cargo run --bin %:t:r"  size=60<cr>')
     vim.keymap.set('n', '<Leader>hu', '<cmd>lua require("rust-tools").inlay_hints.unset()<cr>')
 end, group = r_group })
 
@@ -40,4 +42,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     group    = buf_group,
     pattern  = '*',
     callback = function() vim.highlight.on_yank { timeout = 500 } end
+})
+
+vim.api.nvim_create_autocmd('BufWritePost', {
+    group    = buf_group,
+    pattern  = '*',
+    callback = function() vim.cmd('TSDisable rainbow | TSEnable rainbow') end
 })
