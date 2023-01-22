@@ -13,6 +13,9 @@ export ZSH="/home/shragath/.oh-my-zsh"
 export PATH="$PATH:$HOME/.local/go/bin"
 export PATH="$PATH:$HOME/go/bin"
 
+# Path to Matlab
+export PATH="$PATH:$HOME/MATLAB/R2022b/bin"
+
 # Blender
 export PATH="$HOME/.local/blender-3.3.0-linux-x64/:$PATH"
 
