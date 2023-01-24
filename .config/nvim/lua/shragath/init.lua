@@ -1,5 +1,5 @@
 require('shragath.config')
-require('shragath.packer')
+require('shragath.lazy')
 
 -----------------------------------------------------------
 -- Autocommands
@@ -34,7 +34,7 @@ vim.api.nvim_create_autocmd("FileType", { pattern = "python", callback = functio
     vim.keymap.set('n', '<leader>ro', '<cmd>MagmaShowOutput<cr>')
     vim.g.magma_automatically_open_output = false
     vim.g.magma_image_provider = 'ueberzug'
-    vim.cmd('PackerLoad magma-nvim')
+    -- vim.cmd('PackerLoad magma-nvim')
 end, group = py_group })
 
 -- highlight yanks

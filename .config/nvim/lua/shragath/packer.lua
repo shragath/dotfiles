@@ -204,7 +204,9 @@ return require('packer').startup(
         }
 
         -- Buffer tabs
-        use { 'romgrk/barbar.nvim', config = "require('shragath.config.barbar')" }
+        use { 'romgrk/barbar.nvim', config = function()
+            require 'bufferline'.setup { icons = "numbers", }
+        end }
 
         -- makes vim autocomplete (), [], {}, '', ----, etc
         -- matches pairs of things (if-else, tags, etc)
