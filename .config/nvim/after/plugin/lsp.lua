@@ -3,7 +3,7 @@ lsp.preset('recommended')
 
 lsp.ensure_installed({
     "pylsp", "intelephense", "vimls", "gopls", "cssls", "tailwindcss",
-    "bashls", "omnisharp", "r_language_server", "sumneko_lua"
+    "bashls", "omnisharp", "r_language_server", "sumneko_lua", "rust_analyzer", "tsserver"
 })
 
 local cmp = require('cmp')
@@ -36,6 +36,10 @@ vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 local on_attach = function(client, bufnr)
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+    if client.name == "tsserver" then
+        client.server_capabilities.documentFormattingProvider = false -- 0.8 and later
+    end
 
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
@@ -72,8 +76,33 @@ rt.setup({
 })
 
 lsp.nvim_workspace()
-
+lsp.skip_server_setup({})
 lsp.setup()
+
+local null_ls = require("null-ls")
+
+-- register any number of sources simultaneously
+local sources = {
+    -- ..., -- add to your other sources
+    require("typescript.extensions.null-ls.code-actions"),
+    -- null_ls.builtins.diagnostics.eslint_d,
+    null_ls.builtins.diagnostics.eslint,
+    -- null_ls.builtins.formatting.stylua,
+    null_ls.builtins.formatting.prettierd,
+    -- null_ls.builtins.formatting.black,
+    -- null_ls.builtins.diagnostics.write_good,
+    null_ls.builtins.code_actions.gitsigns,
+}
+
+null_ls.setup({
+    sources = sources,
+    on_attach = function(client, bufnr)
+        local bufopts = { noremap = true, silent = true, buffer = bufnr }
+        if client.supports_method("textDocument/formatting") then
+            vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+        end
+    end,
+})
 
 require("mason-null-ls").setup({
     automatic_setup = true,

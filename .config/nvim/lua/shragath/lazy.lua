@@ -30,6 +30,7 @@ require("lazy").setup({
     { 'nvim-treesitter/playground', cmd = "TSPlaygroundToggle" },
     'RRethy/nvim-treesitter-textsubjects',
     --  "ziontee113/syntax-tree-surfer"
+    { 'windwp/nvim-ts-autotag', config = true },
 
     -- indentation guides
     { 'lukas-reineke/indent-blankline.nvim', config = function() require('shragath.config.indent-blankline') end }, --
@@ -95,6 +96,8 @@ require("lazy").setup({
     },
     { 'simrat39/rust-tools.nvim' },
     { 'nvim-telescope/telescope-ui-select.nvim' },
+    'jose-elias-alvarez/typescript.nvim',
+
     -- Debugging -- To Do
     'mfussenegger/nvim-dap',
 
