@@ -18,7 +18,7 @@ vim.keymap.set('n', '<Leader>fs', '<cmd>lua require("session-lens").search_sessi
     silent = true
 })
 -- Telescope file explorer
-vim.keymap.set('n', '<Space>ed', '<cmd>Telescope file_browser<CR>', {
+vim.keymap.set('n', '<Space>se', '<cmd>Telescope file_browser<CR>', {
     noremap = true,
-    silent = true })
-
+    silent = true
+})

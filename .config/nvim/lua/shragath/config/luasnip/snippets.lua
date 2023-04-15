@@ -1,26 +1,26 @@
-local ls = require "luasnip"
+local luasnip = require "luasnip"
 
 -- This is a snippet creator
 -- s(<trigger>, <nodes>)
-local s = ls.snippet
+local s = luasnip.snippet
 
 local fmt = require("luasnip.extras.fmt").fmt
 
 -- This is an insert node
 -- -- It takes a position (like $1) and optionally some default text
 -- i(<position>, [default\_text])
-local i = ls.insert_node
-local t = ls.text_node
+local i = luasnip.insert_node
+local t = luasnip.text_node
 
 local rep = require("luasnip.extras").rep
 
-ls.add_snippets("lua",
+luasnip.add_snippets("lua",
     {
         s("req", fmt("local {} = require('{}')", { i(1, "default"), rep(1) }))
     }, { key = "lua" }
 )
 
-ls.add_snippets("tex",
+luasnip.add_snippets("tex",
     {
         s("doc", {
             t("% Ltex: language=es"),
@@ -132,7 +132,7 @@ ls.add_snippets("tex",
     }, { key = "tex" }
 )
 
-ls.add_snippets("rust", {
+luasnip.add_snippets("rust", {
     s("test",
         fmt(
             [[

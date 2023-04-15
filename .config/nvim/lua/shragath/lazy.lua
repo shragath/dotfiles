@@ -27,8 +27,11 @@ require("lazy").setup({
         'nvim-treesitter/nvim-treesitter',
         build = ':TSUpdate'
     },
-    { 'nvim-treesitter/playground', cmd = "TSPlaygroundToggle" },
+    {
+        'nvim-treesitter/playground', cmd = "TSPlaygroundToggle"
+    },
     'RRethy/nvim-treesitter-textsubjects',
+    'nvim-treesitter/nvim-treesitter-context',
     --  "ziontee113/syntax-tree-surfer"
     { 'windwp/nvim-ts-autotag', config = true },
 
@@ -53,10 +56,7 @@ require("lazy").setup({
                 palettes = {
                     -- Custom nightfox with darkened background
                     nightfox = {
-                        bg1 = "#011627", -- Black background
-                        -- bg0 = "#011627", -- Alt backgrounds (floats, statusline, ...)
-                        -- bg3 = "#121820", -- 55% darkened from stock
-                        -- sel0 = "#131b24", -- 55% darkened from stock
+                        bg1 = "#011627",
                         visual = "#1b3b51",
                     },
                 },
@@ -84,6 +84,9 @@ require("lazy").setup({
             { 'hrsh7th/cmp-path' }, -- Optional
             { 'saadparwaiz1/cmp_luasnip' }, -- Optional
             { 'hrsh7th/cmp-nvim-lua' }, -- Optional
+            {"hrsh7th/cmp-nvim-lsp-signature-help"},
+            { "hrsh7th/cmp-cmdline" },
+            { "hrsh7th/cmp-nvim-lsp-document-symbol" },
 
             -- Snippets
             { 'L3MON4D3/LuaSnip', config = function() require('shragath.config.luasnip') end }, -- Required
@@ -194,7 +197,7 @@ require("lazy").setup({
     { 'NvChad/nvim-colorizer.lua', config = true, event = "VeryLazy" },
 
     -- Buffer tabs
-    { 'romgrk/barbar.nvim', opts = { icons = "numbers" } },
+    -- { 'romgrk/barbar.nvim', opts = { icons = {buffer_index = true, filetype = { enabled = false }} } },
 
     -- makes vim autocomplete (), [], {}, '', ----, etc
     -- matches pairs of things (if-else, tags, etc)

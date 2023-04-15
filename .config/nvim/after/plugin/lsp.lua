@@ -3,17 +3,17 @@ lsp.preset('recommended')
 
 lsp.ensure_installed({
     "pylsp", "intelephense", "vimls", "gopls", "cssls", "tailwindcss",
-    "bashls", "omnisharp", "r_language_server", "sumneko_lua", "rust_analyzer", "tsserver"
+    "bashls", "omnisharp", "r_language_server", "lua_ls", "rust_analyzer", "tsserver"
 })
 
 local cmp = require('cmp')
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
-local cmp_mappings = lsp.defaults.cmp_mappings({
-    ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-    ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-    ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-    ["<C-Space>"] = cmp.mapping.complete(),
-})
+-- local cmp_mappings = lsp.defaults.cmp_mappings({
+--     ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+--     ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+--     ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+--     ["<C-Space>"] = cmp.mapping.complete(),
+-- })
 
 lsp.set_preferences({
     sign_icons = {}
@@ -59,25 +59,106 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
     vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+    vim.keymap.set('v', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
     vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, bufopts)
+
+    -- TODO - Delete when fixed - https://github.com/OmniSharp/omnisharp-roslyn/issues/2483
+    if client.name == "omnisharp" then
+        client.server_capabilities.semanticTokensProvider = {
+            full = vim.empty_dict(),
+            legend = {
+                tokenModifiers = { "static_symbol" },
+                tokenTypes = {
+                    "comment",
+                    "excluded_code",
+                    "identifier",
+                    "keyword",
+                    "keyword_control",
+                    "number",
+                    "operator",
+                    "operator_overloaded",
+                    "preprocessor_keyword",
+                    "string",
+                    "whitespace",
+                    "text",
+                    "static_symbol",
+                    "preprocessor_text",
+                    "punctuation",
+                    "string_verbatim",
+                    "string_escape_character",
+                    "class_name",
+                    "delegate_name",
+                    "enum_name",
+                    "interface_name",
+                    "module_name",
+                    "struct_name",
+                    "type_parameter_name",
+                    "field_name",
+                    "enum_member_name",
+                    "constant_name",
+                    "local_name",
+                    "parameter_name",
+                    "method_name",
+                    "extension_method_name",
+                    "property_name",
+                    "event_name",
+                    "namespace_name",
+                    "label_name",
+                    "xml_doc_comment_attribute_name",
+                    "xml_doc_comment_attribute_quotes",
+                    "xml_doc_comment_attribute_value",
+                    "xml_doc_comment_cdata_section",
+                    "xml_doc_comment_comment",
+                    "xml_doc_comment_delimiter",
+                    "xml_doc_comment_entity_reference",
+                    "xml_doc_comment_name",
+                    "xml_doc_comment_processing_instruction",
+                    "xml_doc_comment_text",
+                    "xml_literal_attribute_name",
+                    "xml_literal_attribute_quotes",
+                    "xml_literal_attribute_value",
+                    "xml_literal_cdata_section",
+                    "xml_literal_comment",
+                    "xml_literal_delimiter",
+                    "xml_literal_embedded_expression",
+                    "xml_literal_entity_reference",
+                    "xml_literal_name",
+                    "xml_literal_processing_instruction",
+                    "xml_literal_text",
+                    "regex_comment",
+                    "regex_character_class",
+                    "regex_anchor",
+                    "regex_quantifier",
+                    "regex_grouping",
+                    "regex_alternation",
+                    "regex_text",
+                    "regex_self_escaped_character",
+                    "regex_other_escape",
+                },
+            },
+            range = true,
+        }
+    end
 end
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 lsp.on_attach(on_attach)
 
+
+lsp.nvim_workspace()
+lsp.skip_server_setup({ "rust-analyzer", "omnisharp_mono" })
+lsp.setup()
+
 local rt = require("rust-tools")
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 rt.setup({
     server = {
+        capabilities = capabilities,
         on_attach = on_attach,
-        -- capabilities = capabilities
     },
 })
-
-lsp.nvim_workspace()
-lsp.skip_server_setup({})
-lsp.setup()
 
 local null_ls = require("null-ls")
 

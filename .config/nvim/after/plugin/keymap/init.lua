@@ -1,5 +1,6 @@
 -- Add comand C hlsearch
 vim.api.nvim_command('command C let @/=""')
+vim.api.nvim_command('command BufOnly :w|%bd|e#')
 
 -- Search and replace word under cursor
 vim.keymap.set('n', '<Leader>s', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>', { noremap = true })
@@ -52,7 +53,7 @@ vim.keymap.set('t', '<Space><esc>', '<C-\\><C-n>', {
 vim.keymap.set({ 'n', 't' }, '<c-\\>', '<cmd>ToggleTerm size=20 direction=horizontal<cr>')
 
 -- Opens terminal bottom
-vim.keymap.set('n', '<S-t>', ':botright split | term<CR>', { noremap = true })
+vim.keymap.set('n', '<Space-t>', ':left split | term<CR>', { noremap = true })
 
 -- Add move line shortcuts
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -84,77 +85,17 @@ vim.keymap.set('n', '<Space-k>', '<cmd>lprev<CR>', {
     silent = true
 })
 
--- Hop
-vim.keymap.set('n', '<Space>c', '<cmd>HopChar1<cr>', {
-    noremap = true
-})
-vim.keymap.set('v', '<Space>c', '<cmd>HopChar1<cr>', {
-    noremap = true
-})
-vim.keymap.set('n', '<Space>s', '<cmd>HopChar2<cr>', {
-    noremap = true
-})
-vim.keymap.set('v', '<Space>s', '<cmd>HopChar2<cr>', {
-    noremap = true
-})
-vim.keymap.set('n', '<Space>w', '<cmd>HopPattern<cr>', {
-    noremap = true
-})
-vim.keymap.set('n', '<Space>l', '<cmd>HopLine<cr>', {
-    noremap = true
-})
-vim.keymap.set('n', '<A-w>', '<cmd>HopWord<cr>', {
-    noremap = true
-})
-vim.keymap.set('v', '<A-w>', '<cmd>HopWord<cr>', {
-    noremap = true
-})
-
 -- Buffers
 -- Move to previous/next
-vim.keymap.set('n', '<S-h>', '<cmd>BufferPrevious<CR>', {
+vim.keymap.set('n', '<S-h>', '<cmd>bprev<CR>', {
     noremap = true
 })
-vim.keymap.set('n', '<S-l>', '<cmd>BufferNext<CR>', {
+vim.keymap.set('n', '<S-l>', '<cmd>bnext<CR>', {
     noremap = true
 })
 
 -- Close buffer
-vim.keymap.set('n', '<A-c>', '<cmd>BufferClose<CR>', {
-    noremap = true
-})
-
--- Goto buffer in position...
-vim.keymap.set('n', '<A-1>', '<cmd>BufferGoto 1<CR>', {
-    noremap = true
-})
-vim.keymap.set('n', '<A-2>', '<cmd>BufferGoto 2<CR>', {
-    noremap = true
-})
-vim.keymap.set('n', '<A-3>', '<cmd>BufferGoto 3<CR>', {
-    noremap = true
-})
-vim.keymap.set('n', '<A-4>', '<cmd>BufferGoto 4<CR>', {
-    noremap = true
-})
-vim.keymap.set('n', '<A-5>', '<cmd>BufferGoto 5<CR>', {
-    noremap = true
-})
-vim.keymap.set('n', '<A-6>', '<cmd>BufferGoto 6<CR>', {
-    noremap = true
-})
-vim.keymap.set('n', '<A-7>', '<cmd>BufferGoto 7<CR>', {
-    noremap = true
-})
-vim.keymap.set('n', '<A-8>', '<cmd>BufferGoto 8<CR>', {
-    noremap = true
-})
-vim.keymap.set('n', '<A-9>', '<cmd>BufferLast<CR>', {
-    noremap = true
-})
-
--- Magic buffer-picking mode
-vim.keymap.set('n', '<C-s>', '<cmd>BufferPick<CR>', {
+vim.keymap.set('n', '<A-c>', '<cmd>bdelete %<CR>', {
     noremap = true
 })
 
@@ -169,13 +110,20 @@ vim.keymap.set('n', '<C-s>', '<cmd>BufferPick<CR>', {
 -- })
 
 -- Harpoon
-vim.keymap.set('n', '<leader>ha', '<cmd>lua require("harpoon.mark").add_file()<cr>', {
+vim.keymap.set('n', '<Space>ha', '<cmd>lua require("harpoon.mark").add_file()<cr>', {
     noremap = true
 })
 
-vim.keymap.set('n', '<leader>hm', '<cmd>lua require("harpoon.ui").toggle_quick_menu()<cr>', {
+vim.keymap.set('n', '<Space>hm', '<cmd>lua require("harpoon.ui").toggle_quick_menu()<cr>', {
     noremap = true
 })
 
+vim.keymap.set( 'n', '<Space>ht', '<cmd>lua require("harpoon.ui").nav_next()<cr>', {
+    noremap = true
+})
+
+vim.keymap.set('n', '<Space>hs', '<cmd>lua require("harpoon.ui").nav_prev()<cr>', {
+    noremap = true
+})
 -- Change working directory to the location of the current file
 vim.keymap.set('n', '<leader>cd', "<cmd>cd %:p:h<CR><cmd>pwd<CR>")

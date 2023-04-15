@@ -20,9 +20,9 @@ local_assign_continuation_align_to_first_expression = false
 # however, if the args has cross row arg, it will not be aligned to the first arg
 align_call_args = false
 # if true, all function define params will align to first param
-align_function_define_params = true
+align_function_define_params = false
 # if true, format like this "local t = { 1, 2, 3 }"
-keep_one_space_between_table_and_bracket = true
+keep_one_space_between_table_and_bracket = false
 # if indent_style is tab, this option is invalid
 align_table_field_to_first_field = false
 # if true, ormat like this "local t <const> = 1"
@@ -30,9 +30,9 @@ keep_one_space_between_namedef_and_attribute = false
 # continous line distance
 max_continuous_line_distance = 1
 # see document for detail
-continuous_assign_statement_align_to_equal_sign = true
+continuous_assign_statement_align_to_equal_sign = false
 # see document for detail
-continuous_assign_table_field_align_to_equal_sign = true
+continuous_assign_table_field_align_to_equal_sign = false
 # if true, the label loses its current indentation
 label_no_indent = false
 # if true, there will be no indentation in the do statement
@@ -45,8 +45,9 @@ table_append_expression_no_space = false
 if_condition_align_with_each_other = false
 
 long_chain_expression_allow_one_space_after_colon = false
-# optional crlf/lf/auto, if it is 'auto', in windows it is crlf other platforms are lf
-end_of_line = auto
+# optional crlf/lf/cr/auto, if it is 'auto', in windows it is crlf other platforms are lf
+# in neovim the value 'auto' is not a valid option, please use 'unset' 
+end_of_line = unset
 
 # [line layout]
 # The following configuration supports three expressions
