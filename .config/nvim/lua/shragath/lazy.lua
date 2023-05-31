@@ -13,86 +13,112 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-    { "folke/which-key.nvim", cmd = "WhichKey" },
+    { "folke/which-key.nvim",            cmd = "WhichKey" },
     -- { "folke/neoconf.nvim", cmd = "Neoconf" },
-    "folke/neodev.nvim",
-    -- Start up time
-    {
-        "dstein64/vim-startuptime",
-        -- lazy-load on a command
-        cmd = "StartupTime",
-    },
+    { "folke/neodev.nvim" },
     -- nvim-treesitter
-    {
-        'nvim-treesitter/nvim-treesitter',
-        build = ':TSUpdate'
-    },
-    {
-        'nvim-treesitter/playground', cmd = "TSPlaygroundToggle"
-    },
-    'RRethy/nvim-treesitter-textsubjects',
+    { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
+    { 'nvim-treesitter/playground',      cmd = "TSPlaygroundToggle" },
     'nvim-treesitter/nvim-treesitter-context',
+    'nvim-lua/plenary.nvim',
     --  "ziontee113/syntax-tree-surfer"
-    { 'windwp/nvim-ts-autotag', config = true },
+    { 'windwp/nvim-ts-autotag',           config = true },
 
     -- indentation guides
-    { 'lukas-reineke/indent-blankline.nvim', config = function() require('shragath.config.indent-blankline') end }, --
-    -- Icons
-    'ryanoasis/vim-devicons',
-    'kyazdani42/nvim-web-devicons', -- for file icons
-
+    {
+        'lukas-reineke/indent-blankline.nvim',
+        event = { "BufReadPost", "BufNewFile" },
+        config = function() require('shragath.config.indent-blankline') end
+    }, --
+    -- active indent guide and indent text objects
+    {
+        "echasnovski/mini.indentscope",
+        version = false, -- wait till new 0.7.0 release to put it back on semver
+        event = { "BufReadPre", "BufNewFile" },
+        opts = {
+            -- symbol = "▏",
+            symbol = "╎",
+            options = { try_as_border = true },
+        },
+        init = function()
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason" },
+                callback = function()
+                    vim.b.miniindentscope_disable = true
+                end,
+            })
+        end,
+    },
     -- Status Bar
-    { 'nvim-lualine/lualine.nvim', config = function() require('shragath.config.status-line') end },
-
+    {
+        'nvim-lualine/lualine.nvim',
+        config = function() require('shragath.config.status-line') end
+    },
     -- Themes
-    --  { 'Julpikar/night-owl.nvim', config = function()
-    --     require("night-owl")
-    -- end }
-    { "EdenEast/nightfox.nvim",
+    {
+        'rebelot/kanagawa.nvim',
         lazy = false,
         priority = 1000,
         config = function()
-            require("nightfox").setup({
-                palettes = {
-                    -- Custom nightfox with darkened background
-                    nightfox = {
-                        bg1 = "#011627",
-                        visual = "#1b3b51",
+            require('kanagawa').setup({
+                theme = "wave",
+                colors = {
+                    theme = {
+                        wave = {
+                            ui = {
+                                bg        = '#011627',
+                                -- bg_dim = '#011627',
+                                bg_gutter = '#011627',
+                            },
+                            diag = {
+                                error = '#ebbcba', -- extended color 1
+                            },
+                        }
                     },
                 },
             })
-            vim.cmd("colorscheme nightfox")
-        end },
+
+            vim.cmd.colorscheme('kanagawa')
+            vim.api.nvim_set_hl(0, 'IncSearch', { bg = '#536878', fg = '#16161D' })
+        end
+    },
+    -- Inlay hints
+    { 'lvimuser/lsp-inlayhints.nvim',     config = true,         branch = "anticonceal" },
 
     -- Rainbow Parentheses
-    'p00f/nvim-ts-rainbow',
+    { 'HiPhish/nvim-ts-rainbow2' },
 
     -- LSP servers
+    { 'neovim/nvim-lspconfig' },
+    { 'williamboman/mason.nvim',          build = ":MasonUpdate" },
+    { 'williamboman/mason-lspconfig.nvim' },
+
+    -- Autocompletion
     {
-        'VonHeikemen/lsp-zero.nvim',
-        branch = 'v1.x',
-        dependencies = {
-            -- LSP Support
-            { 'neovim/nvim-lspconfig' }, -- Required
-            { 'williamboman/mason.nvim' }, -- Optional
-            { 'williamboman/mason-lspconfig.nvim' }, -- Optional
-
-            -- Autocompletion
-            { 'hrsh7th/nvim-cmp', event = "InsertEnter", config = function() require('shragath.config.cmp') end }, -- Required
-            { 'hrsh7th/cmp-nvim-lsp' }, -- Required
-            { 'hrsh7th/cmp-buffer' }, -- Optional
-            { 'hrsh7th/cmp-path' }, -- Optional
-            { 'saadparwaiz1/cmp_luasnip' }, -- Optional
-            { 'hrsh7th/cmp-nvim-lua' }, -- Optional
-            {"hrsh7th/cmp-nvim-lsp-signature-help"},
-            { "hrsh7th/cmp-cmdline" },
-            { "hrsh7th/cmp-nvim-lsp-document-symbol" },
-
-            -- Snippets
-            { 'L3MON4D3/LuaSnip', config = function() require('shragath.config.luasnip') end }, -- Required
-            { 'rafamadriz/friendly-snippets' }, -- Optional
-        }
+        'hrsh7th/nvim-cmp',
+        event = "InsertEnter",
+        config = function()
+            require('shragath.config.cmp')
+        end
     },
+    { 'hrsh7th/cmp-nvim-lsp' },
+    { 'hrsh7th/cmp-buffer' },
+    { 'hrsh7th/cmp-path' },
+    { 'saadparwaiz1/cmp_luasnip' },
+    { 'hrsh7th/cmp-nvim-lua' },
+    { 'hrsh7th/cmp-nvim-lsp-signature-help' },
+    { "hrsh7th/cmp-cmdline" },
+    { "hrsh7th/cmp-nvim-lsp-document-symbol" },
+
+    -- Diagnostics
+    { 'https://git.sr.ht/~whynothugo/lsp_lines.nvim' },
+
+    -- Snippets
+    {
+        'L3MON4D3/LuaSnip',
+        config = function() require('shragath.config.luasnip') end
+    },
+    { 'rafamadriz/friendly-snippets' },
     {
         "jose-elias-alvarez/null-ls.nvim",
         "jayp0521/mason-null-ls.nvim",
@@ -101,106 +127,129 @@ require("lazy").setup({
     { 'nvim-telescope/telescope-ui-select.nvim' },
     'jose-elias-alvarez/typescript.nvim',
 
-    -- Debugging -- To Do
+    -- AI autocolmpletion
+    {
+        "jcdickinson/codeium.nvim",
+        config = function()
+            require("codeium").setup({
+            })
+        end
+    },
+    -- Debugging -- !ToDo()
     'mfussenegger/nvim-dap',
 
-    'nvim-lua/lsp-status.nvim',
     'onsails/lspkind-nvim',
 
+    -- Notes
+    {
+        "nvim-neorg/neorg",
+        build = ":Neorg sync-parsers",
+        opts = {
+            load = {
+                ["core.defaults"] = {},  -- Loads default behaviour
+                ["core.concealer"] = {}, -- Adds pretty icons to your documents
+                ["core.dirman"] = {      -- Manages Neorg workspaces
+                    config = {
+                        workspaces = {
+                            notes = "~/Documents/notes",
+                            tesis = "~/Documents/notes/tesis",
+                            dev = "~/Documents/notes/dev"
+                        },
+                    },
+                },
+            },
+        },
+    },
+
     -- File search
-    'nvim-lua/popup.nvim',
-    'nvim-lua/plenary.nvim',
     {
         'nvim-telescope/telescope.nvim',
         cmd = "Telescope",
         dependencies = {
-            -- Tree file explore
-            "nvim-telescope/telescope-file-browser.nvim",
             -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
-            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make', cond = vim.fn.executable 'make' == 1 },
+            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
         },
         config = function() require('shragath.config.telescope') end,
     },
-    'ThePrimeagen/harpoon',
-
-
-    -- Comment
-    { 'numToStr/Comment.nvim', event = "InsertEnter", config = true },
-
-    -- Add/change surrounds
-    { "kylechui/nvim-surround", event = "InsertEnter", config = true },
-
-    -- Session manager
+    { 'ThePrimeagen/harpoon' },
     {
-        'rmagatti/auto-session',
+        'stevearc/oil.nvim',
         config = function()
-            require('auto-session').setup {
-                log_level = 'info',
-                auto_session_enabled = false,
-            }
+            require('oil').setup()
+            vim.keymap.set("n", "-", require("oil").open, { desc = "Open parent directory" })
         end,
-        dependencies = {
-            {
-                'rmagatti/session-lens',
-                -- requires = { 'rmagatti/auto-session', 'nvim-telescope/telescope.nvim' },
-                config = function()
-                    require('session-lens').setup {
-                        -- path_display = {'shorten'},
-                        theme_conf = {
-                            border = false
-                        },
-                        previewer = false
-                    }
-                end
-            },
-
-        }
+        dependencies = { "nvim-tree/nvim-web-devicons" },
     },
 
+    -- Comment
+    { 'numToStr/Comment.nvim',  event = "InsertEnter", config = true },
+
+    -- Add/change surrounds
+    { 'kylechui/nvim-surround', event = "InsertEnter", config = true },
+
     -- Undo tree history
-    { 'mbbill/undotree', cmd = "UndotreeToggle" },
+    {
+        'mbbill/undotree',
+        config = function()
+            vim.keymap.set('n', '<leader>ut', vim.cmd.UndotreeToggle)
+        end
+    },
 
     -- save as sudo
     { 'lambdalisue/suda.vim', event = "VeryLazy" },
 
     -- Git
-    { 'tpope/vim-fugitive', cmd = "Git" },
-    'tpope/vim-rhubarb',
+    { 'tpope/vim-fugitive',   cmd = "Git" },
+    { 'tpope/vim-rhubarb',    cmd = 'Git' },
     'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
     { 'lewis6991/gitsigns.nvim', config = true },
-    -- IDE
-    { "luukvbaal/stabilize.nvim", event = "VeryLazy", config = true },
 
     -- move motions
-    { "ggandor/leap.nvim", config = function()
-        require('leap').add_default_mappings()
-    end },
-    { "folke/trouble.nvim", config = true, cmd = "TroubleToggle" },
+    {
+        'ggandor/leap.nvim',
+        config = function()
+            require('leap').add_default_mappings()
+        end,
+        event = "BufEnter"
+    },
+    {
+        'folke/trouble.nvim',
+        config = true,
+        keys = { { '<Leader>tr', '<cmd>TroubleToggle<CR>', desc = 'Toggle trouble window' } },
+    },
 
     -- Jupyter notebook support
-    { 'dccsillag/magma-nvim', build = ':UpdateRemotePlugins', ft = "python" },
+    { 'dccsillag/magma-nvim',    build = ':UpdateRemotePlugins', ft = "python" },
 
     -- Latex support
-    { 'lervag/vimtex', ft = "tex" },
+    { 'lervag/vimtex',           ft = "tex" },
+    {
+        'barreiroleo/ltex_extra.nvim',
+    },
 
     -- Emmet
-    { 'mattn/emmet-vim', ft = { "html", "js", "ts", "jsx", "tsx" } },
-
-    -- Terminal
-    { 'akinsho/nvim-toggleterm.lua', cmd = "ToggleTerm", version = "*", config = true },
+    { 'mattn/emmet-vim',           ft = { "html", "js", "ts", "jsx", "tsx" } },
 
     -- Signature help
-    'ray-x/lsp_signature.nvim',
+    { 'ray-x/lsp_signature.nvim',  config = true,                            event = "InsertEnter" },
 
     -- Show Colors
-    { 'NvChad/nvim-colorizer.lua', config = true, event = "VeryLazy" },
-
-    -- Buffer tabs
-    -- { 'romgrk/barbar.nvim', opts = { icons = {buffer_index = true, filetype = { enabled = false }} } },
+    { 'NvChad/nvim-colorizer.lua', config = true,                            event = "VeryLazy" },
 
     -- makes vim autocomplete (), [], {}, '', ----, etc
     -- matches pairs of things (if-else, tags, etc)
-    { "windwp/nvim-autopairs", event = "InsertEnter", config = true },
+    { 'windwp/nvim-autopairs',     event = "InsertEnter",                    config = true },
 
+    -- tmux
+    {
+        'christoomey/vim-tmux-navigator',
+        keys = {
+            { '<A-h>', '<CMD>NavigatorLeft<CR>',     desc = "Tmux pane navigator left" },
+            { '<A-l>', '<CMD>NavigatorRight<CR>',    desc = "Tmux pane navigator right" },
+            { '<A-k>', '<CMD>NavigatorUp<CR>',       desc = "Tmux pane navigator up" },
+            { '<A-j>', '<CMD>NavigatorDown<CR>',     desc = "Tmux pane navigator down" },
+            { '<A-p>', '<CMD>NavigatorPrevious<CR>', desc = "Tmux pane navigator previous" },
+        }
+    }
 })

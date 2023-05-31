@@ -1,163 +1,174 @@
-local lsp = require('lsp-zero')
-lsp.preset('recommended')
-
-lsp.ensure_installed({
-    "pylsp", "intelephense", "vimls", "gopls", "cssls", "tailwindcss",
-    "bashls", "omnisharp", "r_language_server", "lua_ls", "rust_analyzer", "tsserver"
+local ok, wf = pcall(require, "vim.lsp._watchfiles")
+if ok then
+    -- disable lsp watcher. Too slow on linux
+    wf._watchfunc = function()
+        return function() end
+    end
+end
+require('neodev').setup()
+local lspconfig = require('lspconfig')
+local configs = require 'lspconfig/configs'
+require('mason').setup()
+require('mason-lspconfig').setup({
+    ensure_installed = {
+        "pylsp", "intelephense", "vimls", "gopls", "cssls", "tailwindcss",
+        "bashls", "omnisharp", "r_language_server", "lua_ls", "rust_analyzer", "tsserver", "texlab"
+    }
 })
 
-local cmp = require('cmp')
-local cmp_select = { behavior = cmp.SelectBehavior.Select }
--- local cmp_mappings = lsp.defaults.cmp_mappings({
---     ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
---     ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
---     ['<C-y>'] = cmp.mapping.confirm({ select = true }),
---     ["<C-Space>"] = cmp.mapping.complete(),
--- })
+local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-lsp.set_preferences({
-    sign_icons = {}
-})
-
-lsp.setup_nvim_cmp({
-    mapping = cmp_mappings
-})
-
----- Mappings.
+---- Mappings.{{{
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-local opts = { noremap = true, silent = true }
-vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
-local on_attach = function(client, bufnr)
-    -- Enable completion triggered by <c-x><c-o>
-    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+vim.api.nvim_create_autocmd('LspAttach', {
+    group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+    callback = function(ev)
+        local client = vim.lsp.get_client_by_id(ev.data.client_id)
+        require("lsp-inlayhints").on_attach(client, ev.buf)
 
-    if client.name == "tsserver" then
-        client.server_capabilities.documentFormattingProvider = false -- 0.8 and later
-    end
+        -- Enable completion triggered by <c-x><c-o>
+        vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
-    -- Mappings.
-    -- See `:help vim.lsp.*` for documentation on any of the below functions
-    local bufopts = { noremap = true, silent = true, buffer = bufnr }
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-    vim.keymap.set('n', '<space>wl', function()
-        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, bufopts)
-    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
-    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
-    vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-    vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
-    vim.keymap.set('v', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
-    vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, bufopts)
+        -- Buffer local mappings.
+        -- See `:help vim.lsp.*` for documentation on any of the below functions
+        local opts = { buffer = ev.buf }
+        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+        vim.keymap.set({ 'n', 'i' }, '<C-h>', vim.lsp.buf.signature_help, opts)
+        vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+        vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+        vim.keymap.set('n', '<space>wl', function()
+            print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+        end, opts)
+        vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
+        vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+        vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
+        vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+        vim.keymap.set({ 'n', 'v' }, '<space>f', function()
+            vim.lsp.buf.format { async = true }
+        end, opts)
 
-    -- TODO - Delete when fixed - https://github.com/OmniSharp/omnisharp-roslyn/issues/2483
-    if client.name == "omnisharp" then
-        client.server_capabilities.semanticTokensProvider = {
-            full = vim.empty_dict(),
-            legend = {
-                tokenModifiers = { "static_symbol" },
-                tokenTypes = {
-                    "comment",
-                    "excluded_code",
-                    "identifier",
-                    "keyword",
-                    "keyword_control",
-                    "number",
-                    "operator",
-                    "operator_overloaded",
-                    "preprocessor_keyword",
-                    "string",
-                    "whitespace",
-                    "text",
-                    "static_symbol",
-                    "preprocessor_text",
-                    "punctuation",
-                    "string_verbatim",
-                    "string_escape_character",
-                    "class_name",
-                    "delegate_name",
-                    "enum_name",
-                    "interface_name",
-                    "module_name",
-                    "struct_name",
-                    "type_parameter_name",
-                    "field_name",
-                    "enum_member_name",
-                    "constant_name",
-                    "local_name",
-                    "parameter_name",
-                    "method_name",
-                    "extension_method_name",
-                    "property_name",
-                    "event_name",
-                    "namespace_name",
-                    "label_name",
-                    "xml_doc_comment_attribute_name",
-                    "xml_doc_comment_attribute_quotes",
-                    "xml_doc_comment_attribute_value",
-                    "xml_doc_comment_cdata_section",
-                    "xml_doc_comment_comment",
-                    "xml_doc_comment_delimiter",
-                    "xml_doc_comment_entity_reference",
-                    "xml_doc_comment_name",
-                    "xml_doc_comment_processing_instruction",
-                    "xml_doc_comment_text",
-                    "xml_literal_attribute_name",
-                    "xml_literal_attribute_quotes",
-                    "xml_literal_attribute_value",
-                    "xml_literal_cdata_section",
-                    "xml_literal_comment",
-                    "xml_literal_delimiter",
-                    "xml_literal_embedded_expression",
-                    "xml_literal_entity_reference",
-                    "xml_literal_name",
-                    "xml_literal_processing_instruction",
-                    "xml_literal_text",
-                    "regex_comment",
-                    "regex_character_class",
-                    "regex_anchor",
-                    "regex_quantifier",
-                    "regex_grouping",
-                    "regex_alternation",
-                    "regex_text",
-                    "regex_self_escaped_character",
-                    "regex_other_escape",
-                },
-            },
-            range = true,
-        }
+        -- Custom
+        vim.keymap.set('n', '<leader>ih', function()
+            require('lsp-inlayhints').toggle()
+        end, { buffer = ev.buf, desc = "Toggle inlay hints" })
+    end,
+}) -- }}}
+
+-- Remove from list
+local installed_servers = require('mason-lspconfig').get_installed_servers()
+local skip_servers = { 'rust_analyzer', 'lua_ls', 'ltex', 'tsserver' }
+for i, server_name in ipairs(installed_servers) do
+    for j, server in ipairs(skip_servers) do
+        if server_name == server then
+            table.remove(installed_servers, i)
+            table.remove(skip_servers, j)
+        end
     end
 end
 
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
-lsp.on_attach(on_attach)
-
-
-lsp.nvim_workspace()
-lsp.skip_server_setup({ "rust-analyzer", "omnisharp_mono" })
-lsp.setup()
+for _, server_name in ipairs(installed_servers) do
+    lspconfig[server_name].setup({
+        capabilities = lsp_capabilities,
+    })
+end
 
 local rt = require("rust-tools")
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 rt.setup({
     server = {
-        capabilities = capabilities,
-        on_attach = on_attach,
+        capabilities = lsp_capabilities,
     },
+    tools = {
+        inlay_hints = {
+            auto = false
+        }
+    }
+})
+
+lspconfig.lua_ls.setup { -- {{{
+    capabilities = lsp_capabilities,
+    settings = {
+        Lua = {
+            runtime = {
+                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                version = 'LuaJIT',
+            },
+            diagnostics = {
+                -- Get the language server to recognize the `vim` global
+                globals = { 'vim' },
+            },
+            workspace = {
+                -- Make the server aware of Neovim runtime files
+                library = vim.api.nvim_get_runtime_file("", true),
+            },
+            -- Do not send telemetry data containing a randomized but unique identifier
+            telemetry = {
+                enable = false,
+            },
+        },
+    },
+
+} -- }}}
+
+lspconfig.ltex.setup({
+    capabilities = lsp_capabilities,
+    on_attach = function()
+        require("ltex_extra").setup {
+            load_langs = { "es" },
+            path = "spell",
+        }
+    end,
+    settings = {
+        ltex = {
+            language = "es",
+            disabledRules = {
+                ["es"] = { 'PROFANITY' },
+            },
+            -- dictionary = {
+            --     ["es"] = words
+            -- }
+        }
+    }
+})
+
+lspconfig.tsserver.setup({
+    capabilities = lsp_capabilities,
+    settings = {
+        typescript = {
+            inlayHints = {
+                includeInlayParameterNameHints = 'all',
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+                includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayEnumMemberValueHints = true,
+            }
+        },
+        javascript = {
+            inlayHints = {
+                includeInlayParameterNameHints = 'all',
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+                includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayEnumMemberValueHints = true,
+            }
+        }
+    }
 })
 
 local null_ls = require("null-ls")

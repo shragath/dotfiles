@@ -1,6 +1,7 @@
 -- TreeSitter
 require 'nvim-treesitter.configs'.setup {
-    ensure_installed = { "help", "typescript", "rust", "python", "go", "javascript", "lua", "vim",
+    ensure_installed = {
+        "help", "typescript", "rust", "python", "go", "javascript", "lua", "vim", "html", "css" 
     }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
     auto_install = true,
     highlight = {
@@ -9,15 +10,19 @@ require 'nvim-treesitter.configs'.setup {
     },
     rainbow = {
         enable = true,
-        extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
-        max_file_lines = 1000 -- Do not enable for files with more than 1000 lines, int
+        -- list of languages you want to disable the plugin for
+        -- disable = { 'jsx', 'cpp' },
+        -- Which query to use for finding delimiters
+        query = 'rainbow-parens',
+        -- Highlight the entire buffer all at once
+        strategy = require('ts-rainbow').strategy.global,
     },
-    -- indent = {
-    --     enable = true
-    -- },
-    -- autotag = {
-    --     enable = true
-    -- },
+    indent = {
+        enable = true
+    },
+    autotag = {
+        enable = true
+    },
     textsubjects = {
         enable = true,
         prev_selection = ',', -- (Optional) keymap to select the previous selection

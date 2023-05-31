@@ -21,18 +21,10 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz', {
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
-vim.keymap.set("n", "<leader>y", "\"+y")
-vim.keymap.set("v", "<leader>y", "\"+y")
+vim.keymap.set({ "n", "v" }, "<leader>y", "\"+y")
 vim.keymap.set("n", "<leader>Y", "\"+Y")
 
-vim.keymap.set("n", "<leader>d", "\"_d")
-vim.keymap.set("v", "<leader>d", "\"_d")
-
--- Trouble
-vim.keymap.set({ 'n', 'i' }, '<leader>tr', '<cmd>TroubleToggle<CR>', {
-    noremap = true,
-    silent = true
-})
+vim.keymap.set({ "n", "v" }, "<leader>d", "\"_d")
 
 -- Deletes extra spaces at end of lines
 vim.keymap.set('n', '<Space>ds', ':%s/\\s\\+$//e<CR>', {
@@ -40,17 +32,10 @@ vim.keymap.set('n', '<Space>ds', ':%s/\\s\\+$//e<CR>', {
     silent = true
 })
 
--- Undo tree
-vim.keymap.set('n', '<Leader>ut', '<cmd>UndotreeToggle<CR>', {
-    noremap = true,
-    silent = true
-})
-
 -- Terminal
-vim.keymap.set('t', '<Space><esc>', '<C-\\><C-n>', {
+vim.keymap.set('t', '<esc>', '<C-\\><C-n>', {
     noremap = true
 })
-vim.keymap.set({ 'n', 't' }, '<c-\\>', '<cmd>ToggleTerm size=20 direction=horizontal<cr>')
 
 -- Opens terminal bottom
 vim.keymap.set('n', '<Space-t>', ':left split | term<CR>', { noremap = true })
@@ -62,27 +47,20 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 -- Move in quikfix list
 vim.keymap.set('n', '<A-q>', '<cmd>copen<CR>', {
     noremap = true,
-    silent = true
+    silent = true,
+    desc = 'Opens quick fix list'
 })
 
 vim.keymap.set('n', '<A-l>', '<cmd>cnext<CR>', {
     noremap = true,
-    silent = true
+    silent = true,
+    desc = 'Move to next in quick fix list'
 })
 
-vim.keymap.set('n', '<A-h>', '<cmd>cprev<CR>', {
+vim.keymap.set('n', '<A->>', '<cmd>cprev<CR>', {
     noremap = true,
-    silent = true
-})
-
-vim.keymap.set('n', '<Space-j>', '<cmd>lnext<CR>', {
-    noremap = true,
-    silent = true
-})
-
-vim.keymap.set('n', '<Space-k>', '<cmd>lprev<CR>', {
-    noremap = true,
-    silent = true
+    silent = true,
+    desc = 'Move to previous in quick fix list'
 })
 
 -- Buffers
@@ -99,16 +77,6 @@ vim.keymap.set('n', '<A-c>', '<cmd>bdelete %<CR>', {
     noremap = true
 })
 
--- Use <Tab> and <S-Tab> to navigate through popup menu
--- vim.keymap.set('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', {
---     noremap = true,
---     expr = true
--- })
--- vim.keymap.set('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"', {
---     noremap = true,
---     expr = true
--- })
-
 -- Harpoon
 vim.keymap.set('n', '<Space>ha', '<cmd>lua require("harpoon.mark").add_file()<cr>', {
     noremap = true
@@ -118,12 +86,22 @@ vim.keymap.set('n', '<Space>hm', '<cmd>lua require("harpoon.ui").toggle_quick_me
     noremap = true
 })
 
-vim.keymap.set( 'n', '<Space>ht', '<cmd>lua require("harpoon.ui").nav_next()<cr>', {
+vim.keymap.set('n', '<Space>ht', '<cmd>lua require("harpoon.ui").nav_next()<cr>', {
     noremap = true
 })
 
 vim.keymap.set('n', '<Space>hs', '<cmd>lua require("harpoon.ui").nav_prev()<cr>', {
     noremap = true
 })
+
+-- vim.keymap.set("n", "-", require("oil").open_float, { desc = "Open parent directory" })
 -- Change working directory to the location of the current file
 vim.keymap.set('n', '<leader>cd', "<cmd>cd %:p:h<CR><cmd>pwd<CR>")
+
+local function toggle(option)
+    local value = vim.api.nvim_get_option_value(option, { scope = "local" })
+    vim.api.nvim_set_option_value(option, not value, { scope = "local" })
+    vim.notify((not value and "  " or "no") .. option, vim.log.levels.INFO)
+end
+
+vim.keymap.set("n", "<Space>s", function() toggle("spell") end, { desc = "Toggle option 'spell'" })

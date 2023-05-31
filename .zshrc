@@ -24,15 +24,15 @@ export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
+export PATH=~/.npm-global/bin:$PATH
 # Node Version Manager path
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="afowler"
+# ZSH_THEME="afowler"
+ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -88,6 +88,7 @@ ZSH_THEME="afowler"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
+# source ~/.zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
@@ -139,11 +140,15 @@ alias godot='~/Dev/Godot_v3.5.1-stable_mono_x11_64/Godot_v3.5.1-stable_mono_x11.
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-
 alias luamake=/home/shragath/lua-language-server/3rd/luamake/luamake
 alias config='/usr/bin/git --git-dir=/home/shragath/.dotfiles/ --work-tree=/home/shragath'
+alias vim=nvim
 
 # Keybind
 bindkey '^Y' autosuggest-accept
 bindkey -v
 PATH="$HOME/.local/bin/:$PATH"
+
+
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -3,18 +3,22 @@
 -----------------------------------------------------------
 vim.opt.mouse = 'a'                                     -- Enable mouse support
 vim.opt.clipboard = 'unnamedplus'                       -- Copy/paste to system clipboard
-vim.opt.completeopt = { "menu", "menuone", "noselect" } -- Autocomplete options
+vim.opt.completeopt = { "menu", "menuone", "noselect" } -- Auto complete options
 vim.g.loaded_netrw = 1                                  -- Turn off file explorer netrw
+vim.g.loaded_netrwPlugin = 1
 -- vim.g.loaded_netrwPlugin = 1
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
 vim.g.snippets = "luasnip"
-vim.opt.swapfile = false -- Don't use swapfile
+vim.opt.swapfile = false -- Don't use swap file
 vim.opt.backup = false
 -- vim.g.mapleader = "\"
 vim.opt.undodir = os.getenv("HOME") .. "/.nvim/undodir"
 vim.opt.undofile = true
+vim.opt.spelllang = "en_us"
+vim.opt.spell = false
+vim.g.loaded_spellfile_plugin = 0
 
 -----------------------------------------------------------
 -- Neovim UI
@@ -40,6 +44,7 @@ vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 vim.opt.errorbells = false
 vim.opt.termguicolors = true -- Enable 24-bit RGB colors
+vim.o.cursorline = true
 
 -----------------------------------------------------------
 -- Tabs, indent
@@ -59,20 +64,11 @@ vim.opt.lazyredraw = true -- Faster scrolling
 vim.opt.synmaxcol = 240   -- Max column for syntax highlight
 vim.opt.updatetime = 50   -- Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable delays and poor user experience
 
------------------------------------------------------------
--- Latex
------------------------------------------------------------
-vim.g.vimtex_view_method = 'zathura'
-vim.g.tex_flavor = 'latex'
-
------------------------------------------------------------
-
 -- Incremental live completion
 vim.o.inccommand = "nosplit"
 
 -- Change backspace to behave more intuitively
 vim.o.backspace = "indent,eol,start"
-
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -80,47 +76,6 @@ vim.o.breakindent = true
 -- Set show command
 vim.o.showcmd = true
 
-
--- Format on save
--- vim.cmd [[autocmd BufWritePre *.* lua vim.lsp.buf.formatting_sync()]]
-
--- Change blade.php to html filetype
--- vim.cmd([[autocmd BufRead,BufNewFile *.blade.php set filetype=html]])
-
--- Python 3 path
--- vim.g.python3_host_prog = "/home/shragath/.pyenv/bin"
-
--- Don't pass messages to |ins-completion-menu|.
--- vim.opt.shortmess:append("c")
-
----vim.g.python3_host_prog = "C:/Users/shrag/AppData/Local/Programs/Python/Python39/python.EXE"
-
--- Chain completion list
--- vim.g.completion_chain_complete_list = {
---     default = {
---         default = {
---             {
---                 complete_items = { 'lsp', 'snippet' }
---             }, {
---                 mode = '<c-p>'
---             }, {
---                 mode = '<c-n>'
---             }
---         },
---         comment = {},
---         string = {
---             {
---                 complete_items = { 'path' }
---             }
---         }
---     }
--- }
---
--- vim.g.indentLine_faster = 1
--- vim.g.indentLine_setConceal = 2
--- vim.g.indentLine_concealcursor = ""
--- vim.g.indentLine_bufNameExclude = { "term:.*" }
---
 -- vim.g.user_emmet_leader_key = '<C-Z>'
 --
 -- -- Custom plugin config
