@@ -12,8 +12,14 @@ require('telescope').setup {
     },
     pickers = {
         find_files = {
-            theme = "dropdown"
-        }
+            theme = "dropdown",
+            previewer = false,
+            -- find_command = { "rg", "--ignore", "--hidden", "--files" }
+        },
+        current_buffer_fuzzy_find = {
+            theme = "cursor",
+            previewer = false,
+        },
     }
 }
 

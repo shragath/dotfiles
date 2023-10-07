@@ -36,7 +36,7 @@ vim.opt.smartcase = true                    -- Ignore lowercase for the whole pa
 vim.opt.linebreak = true                    -- Wrap on word boundary
 vim.g.completion_trigger_keyword_length = 3 -- default = 1
 -- Set highlight on search
-vim.opt.hlsearch = false
+vim.opt.hlsearch = true
 vim.opt.incsearch = true
 vim.opt.cmdheight = 1 -- Give more space for displaying messages
 vim.opt.scrolloff = 8

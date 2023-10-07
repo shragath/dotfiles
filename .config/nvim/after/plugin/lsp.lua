@@ -31,8 +31,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('UserLspConfig', {}),
     callback = function(ev)
         local client = vim.lsp.get_client_by_id(ev.data.client_id)
-        require("lsp-inlayhints").on_attach(client, ev.buf)
-
+        -- require("lsp-inlayhints").on_attach(client, ev.buf)
+        if client.name == "tsserver" or client.name == "eslint" then
+            client.server_capabilities.documentFormattingProvider = false -- 0.8 and later
+        end
         -- Enable completion triggered by <c-x><c-o>
         vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
@@ -57,16 +59,35 @@ vim.api.nvim_create_autocmd('LspAttach', {
             vim.lsp.buf.format { async = true }
         end, opts)
 
-        -- Custom
-        vim.keymap.set('n', '<leader>ih', function()
-            require('lsp-inlayhints').toggle()
-        end, { buffer = ev.buf, desc = "Toggle inlay hints" })
+        -- Custom :lua =vim.lsp.get_active_clients()[1].server_capabilities
+        if client.server_capabilities.inlayHintProvider ~= nil and client.server_capabilities.inlayHintProvider ~= false then
+            -- if client.server_capabilities.inlayHintProvider.resolveProvider then
+            vim.lsp.inlay_hint(ev.buf, true)
+            vim.keymap.set('n', '<leader>ih', function()
+                vim.lsp.inlay_hint(ev.buf)
+            end, { buffer = ev.buf, desc = "Toggle inlay hints" })
+            -- end
+        end
+        if client.name == 'omnisharp' then
+            local function toSnakeCase(str)
+                return string.gsub(str, "%s*[- ]%s*", "_")
+            end
+            local tokenModifiers = client.server_capabilities.semanticTokensProvider.legend.tokenModifiers
+            for i, v in ipairs(tokenModifiers) do
+                tokenModifiers[i] = toSnakeCase(v)
+            end
+            local tokenTypes = client.server_capabilities.semanticTokensProvider.legend.tokenTypes
+            for i, v in ipairs(tokenTypes) do
+                tokenTypes[i] = toSnakeCase(v)
+            end
+        end
     end,
 }) -- }}}
 
+
 -- Remove from list
 local installed_servers = require('mason-lspconfig').get_installed_servers()
-local skip_servers = { 'rust_analyzer', 'lua_ls', 'ltex', 'tsserver' }
+local skip_servers = { 'rust_analyzer', 'lua_ls', 'ltex', 'tsserver', 'vtsls', 'omnisharp_mono' }
 for i, server_name in ipairs(installed_servers) do
     for j, server in ipairs(skip_servers) do
         if server_name == server then
@@ -99,6 +120,9 @@ lspconfig.lua_ls.setup { -- {{{
     capabilities = lsp_capabilities,
     settings = {
         Lua = {
+            hint = {
+                enable = true
+            },
             runtime = {
                 -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
                 version = 'LuaJIT',
@@ -144,6 +168,7 @@ lspconfig.ltex.setup({
 lspconfig.tsserver.setup({
     capabilities = lsp_capabilities,
     settings = {
+        documentformatting = false,
         typescript = {
             inlayHints = {
                 includeInlayParameterNameHints = 'all',
@@ -178,24 +203,32 @@ local sources = {
     -- ..., -- add to your other sources
     require("typescript.extensions.null-ls.code-actions"),
     -- null_ls.builtins.diagnostics.eslint_d,
-    null_ls.builtins.diagnostics.eslint,
+    -- null_ls.builtins.diagnostics.eslint,
     -- null_ls.builtins.formatting.stylua,
-    null_ls.builtins.formatting.prettierd,
+    -- null_ls.builtins.formatting.prettierd,
     -- null_ls.builtins.formatting.black,
     -- null_ls.builtins.diagnostics.write_good,
     null_ls.builtins.code_actions.gitsigns,
 }
 
-null_ls.setup({
-    sources = sources,
-    on_attach = function(client, bufnr)
-        local bufopts = { noremap = true, silent = true, buffer = bufnr }
-        if client.supports_method("textDocument/formatting") then
-            vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
-        end
-    end,
+require("mason-null-ls").setup({
+    -- automatic_setup = true,
+    ensure_installed = nil,
+    automatic_installation = false,
+    handlers = {
+        function() end,
+        prettierd = function()
+            null_ls.register(null_ls.builtins.formatting.prettier)
+        end,
+    }
 })
 
-require("mason-null-ls").setup({
-    automatic_setup = true,
+null_ls.setup({
+    sources = sources,
+    -- on_attach = function(client, bufnr)
+    --     local bufopts = { noremap = true, silent = true, buffer = bufnr }
+    --     if client.server_capabilities.documentFormattingProvider then
+    --         vim.keymap.set({ 'n', 'v' }, '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+    --     end
+    -- end,
 })

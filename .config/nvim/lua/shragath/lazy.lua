@@ -28,27 +28,9 @@ require("lazy").setup({
     {
         'lukas-reineke/indent-blankline.nvim',
         event = { "BufReadPost", "BufNewFile" },
+        main = "ibl",
         config = function() require('shragath.config.indent-blankline') end
     }, --
-    -- active indent guide and indent text objects
-    {
-        "echasnovski/mini.indentscope",
-        version = false, -- wait till new 0.7.0 release to put it back on semver
-        event = { "BufReadPre", "BufNewFile" },
-        opts = {
-            -- symbol = "▏",
-            symbol = "╎",
-            options = { try_as_border = true },
-        },
-        init = function()
-            vim.api.nvim_create_autocmd("FileType", {
-                pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason" },
-                callback = function()
-                    vim.b.miniindentscope_disable = true
-                end,
-            })
-        end,
-    },
     -- Status Bar
     {
         'nvim-lualine/lualine.nvim',
@@ -62,6 +44,8 @@ require("lazy").setup({
         config = function()
             require('kanagawa').setup({
                 theme = "wave",
+                commentStyle = { italic = false },
+                keywordStyle = { italic = false },
                 colors = {
                     theme = {
                         wave = {
@@ -83,10 +67,37 @@ require("lazy").setup({
         end
     },
     -- Inlay hints
-    { 'lvimuser/lsp-inlayhints.nvim',     config = true,         branch = "anticonceal" },
+    -- { 'lvimuser/lsp-inlayhints.nvim',     config = true,         branch = "anticonceal" },
 
     -- Rainbow Parentheses
-    { 'HiPhish/nvim-ts-rainbow2' },
+    {
+        'HiPhish/rainbow-delimiters.nvim',
+        config = function()
+            -- This module contains a number of default definitions
+            local rainbow_delimiters = require 'rainbow-delimiters'
+
+            vim.g.rainbow_delimiters = {
+                strategy = {
+                    [''] = rainbow_delimiters.strategy['global'],
+                    commonlisp = rainbow_delimiters.strategy['local'],
+                },
+                query = {
+                    [''] = 'rainbow-delimiters',
+                    lua = 'rainbow-blocks',
+                },
+                highlight = {
+                    'RainbowDelimiterRed',
+                    'RainbowDelimiterYellow',
+                    'RainbowDelimiterBlue',
+                    'RainbowDelimiterOrange',
+                    'RainbowDelimiterGreen',
+                    'RainbowDelimiterViolet',
+                    'RainbowDelimiterCyan',
+                },
+                blacklist = { 'c', 'cpp' },
+            }
+        end
+    },
 
     -- LSP servers
     { 'neovim/nvim-lspconfig' },
@@ -96,7 +107,6 @@ require("lazy").setup({
     -- Autocompletion
     {
         'hrsh7th/nvim-cmp',
-        event = "InsertEnter",
         config = function()
             require('shragath.config.cmp')
         end
@@ -109,6 +119,7 @@ require("lazy").setup({
     { 'hrsh7th/cmp-nvim-lsp-signature-help' },
     { "hrsh7th/cmp-cmdline" },
     { "hrsh7th/cmp-nvim-lsp-document-symbol" },
+    { 'nvim-telescope/telescope-symbols.nvim' },
 
     -- Diagnostics
     { 'https://git.sr.ht/~whynothugo/lsp_lines.nvim' },
@@ -131,14 +142,13 @@ require("lazy").setup({
     {
         "jcdickinson/codeium.nvim",
         config = function()
-            require("codeium").setup({
-            })
+            require("codeium").setup({})
         end
     },
     -- Debugging -- !ToDo()
-    'mfussenegger/nvim-dap',
+    { 'mfussenegger/nvim-dap' },
 
-    'onsails/lspkind-nvim',
+    { 'onsails/lspkind-nvim' },
 
     -- Notes
     {
@@ -161,7 +171,7 @@ require("lazy").setup({
         },
     },
 
-    -- File search
+    -- File search/Fuzzy Finder
     {
         'nvim-telescope/telescope.nvim',
         cmd = "Telescope",
@@ -171,6 +181,7 @@ require("lazy").setup({
         },
         config = function() require('shragath.config.telescope') end,
     },
+
     { 'ThePrimeagen/harpoon' },
     {
         'stevearc/oil.nvim',
@@ -182,10 +193,10 @@ require("lazy").setup({
     },
 
     -- Comment
-    { 'numToStr/Comment.nvim',  event = "InsertEnter", config = true },
+    { 'numToStr/Comment.nvim',  event = "BufEnter", config = true },
 
     -- Add/change surrounds
-    { 'kylechui/nvim-surround', event = "InsertEnter", config = true },
+    { 'kylechui/nvim-surround', event = "BufEnter", config = true },
 
     -- Undo tree history
     {
@@ -196,7 +207,7 @@ require("lazy").setup({
     },
 
     -- save as sudo
-    { 'lambdalisue/suda.vim', event = "VeryLazy" },
+    { 'lambdalisue/suda.vim', cmd = "SudaWrite" },
 
     -- Git
     { 'tpope/vim-fugitive',   cmd = "Git" },
@@ -220,7 +231,7 @@ require("lazy").setup({
     },
 
     -- Jupyter notebook support
-    { 'dccsillag/magma-nvim',    build = ':UpdateRemotePlugins', ft = "python" },
+    -- { 'dccsillag/magma-nvim',    build = ':UpdateRemotePlugins', ft = "python" },
 
     -- Latex support
     { 'lervag/vimtex',           ft = "tex" },
@@ -229,17 +240,17 @@ require("lazy").setup({
     },
 
     -- Emmet
-    { 'mattn/emmet-vim',           ft = { "html", "js", "ts", "jsx", "tsx" } },
+    -- { 'mattn/emmet-vim',           ft = { "html", "js", "ts", "jsx", "tsx" } },
 
     -- Signature help
-    { 'ray-x/lsp_signature.nvim',  config = true,                            event = "InsertEnter" },
+    { 'ray-x/lsp_signature.nvim',  config = true,         event = "InsertEnter" },
 
     -- Show Colors
-    { 'NvChad/nvim-colorizer.lua', config = true,                            event = "VeryLazy" },
+    { 'NvChad/nvim-colorizer.lua', config = true,         event = "VeryLazy" },
 
     -- makes vim autocomplete (), [], {}, '', ----, etc
     -- matches pairs of things (if-else, tags, etc)
-    { 'windwp/nvim-autopairs',     event = "InsertEnter",                    config = true },
+    { 'windwp/nvim-autopairs',     event = "InsertEnter", config = true },
 
     -- tmux
     {

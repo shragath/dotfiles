@@ -29,3 +29,4 @@ require('cmp').setup.buffer {
         -- other sources
     },
 }
+

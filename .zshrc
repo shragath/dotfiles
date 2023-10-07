@@ -9,6 +9,9 @@ export INFOPATH="/usr/local/texlive/2022/texmf-dist/doc/info:$INFOPATH"
 # Path to your oh-my-zsh installation.
 export ZSH="/home/shragath/.oh-my-zsh"
 
+# Path to dotnet tools
+export PATH="$PATH:$HOME/.dotnet/tools"
+
 # Path to go
 export PATH="$PATH:$HOME/.local/go/bin"
 export PATH="$PATH:$HOME/go/bin"
