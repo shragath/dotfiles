@@ -1,26 +1,44 @@
-export PATH="$PATH:$HOME/ltex-ls-15.2.0/bin"
-export PATH="/usr/local/texlive/2022/bin/x86_64-linux:$PATH"
-# export MANPATH="/usr/local/texlive/2022/texmf-dist/doc/man:$MANPATH"
-export INFOPATH="/usr/local/texlive/2022/texmf-dist/doc/info:$INFOPATH"
+if [ -d "$HOME/ltex-ls-15.2.0" ] ; then
+  export PATH="$PATH:$HOME/ltex-ls-15.2.0/bin"
+fi
+if [ -d "/usr/local/texlive/2022/bin" ] ; then
+  export PATH="/usr/local/texlive/2022/bin/x86_64-linux:$PATH"
+  # export MANPATH="/usr/local/texlive/2022/texmf-dist/doc/man:$MANPATH"
+  export INFOPATH="/usr/local/texlive/2022/texmf-dist/doc/info:$INFOPATH"
+fi
 
+# Android Debug Bridge (adb)
+if [ -d "$HOME/adb-fastboot/platform-tools" ] ; then
+ export PATH="$HOME/adb-fastboot/platform-tools:$PATH"
+fi
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/shragath/.oh-my-zsh"
+  export ZSH="/home/shragath/.oh-my-zsh"
 
 # Path to dotnet tools
-export PATH="$PATH:$HOME/.dotnet/tools"
+if [ -d "$HOME/.dotnet/tools" ] ; then
+  export PATH="$PATH:$HOME/.dotnet/tools"
+fi
 
 # Path to go
-export PATH="$PATH:$HOME/.local/go/bin"
-export PATH="$PATH:$HOME/go/bin"
+if [ -d "$HOME/.local/go/bin" ] ; then
+  export PATH="$PATH:$HOME/.local/go/bin"
+fi
+if [ -d "$HOME/go/bin" ] ; then
+  export PATH="$PATH:$HOME/go/bin"
+fi
 
 # Path to Matlab
-export PATH="$PATH:$HOME/MATLAB/R2022b/bin"
+if [ -d "$HOME/MATLAB/R2022b/bin" ] ; then
+  export PATH="$PATH:$HOME/MATLAB/R2022b/bin"
+fi
 
 # Blender
-export PATH="$HOME/.local/blender-3.3.0-linux-x64/:$PATH"
+if [ -d "$HOME/.local/blender-3.3.0-linux-x64" ] ; then
+  export PATH="$HOME/.local/blender-3.3.0-linux-x64/:$PATH"
+fi
 
 # Path to Python pyenv
 export PYENV_ROOT="$HOME/.pyenv"
@@ -137,7 +155,7 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
+alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 alias godot='~/Dev/Godot_v3.5.1-stable_mono_x11_64/Godot_v3.5.1-stable_mono_x11.64'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.

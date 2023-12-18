@@ -16,7 +16,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 --     callback = function() vim.cmd('TSDisable rainbow | TSEnable rainbow') end
 -- })
 
-vim.api.nvim_set_hl(0, 'CursorLine', { bg = 'none' })
-vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = '#9ccfd8' })
-vim.api.nvim_set_hl(0, 'LspInlayHint', { bg = '#011627', fg = '#727169' })
+-- vim.api.nvim_set_hl(0, 'CursorLine', { bg = 'none' })
+-- vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = '#9ccfd8' })
+-- vim.api.nvim_set_hl(0, 'LspInlayHint', { bg = '#011627', fg = '#727169' })
 
