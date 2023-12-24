@@ -19,10 +19,13 @@ config.use_fancy_tab_bar = false
 config.show_tabs_in_tab_bar = false
 config.show_new_tab_button_in_tab_bar = false
 config.default_prog = { 'tmux', 'new', '-As0' }
+config.window_decorations = "NONE"
+config.hide_mouse_cursor_when_typing = false
 
 config.colors = {
     background = '#011627'
 }
+
 
 -- and finally, return the configuration to wezterm
 return config
