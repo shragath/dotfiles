@@ -77,22 +77,6 @@ vim.keymap.set('n', '<A-c>', '<cmd>bdelete %<CR>', {
     noremap = true
 })
 
--- Harpoon
-vim.keymap.set('n', '<Space>ha', '<cmd>lua require("harpoon.mark").add_file()<cr>', {
-    noremap = true
-})
-
-vim.keymap.set('n', '<Space>hm', '<cmd>lua require("harpoon.ui").toggle_quick_menu()<cr>', {
-    noremap = true
-})
-
-vim.keymap.set('n', '<Space>ht', '<cmd>lua require("harpoon.ui").nav_next()<cr>', {
-    noremap = true
-})
-
-vim.keymap.set('n', '<Space>hs', '<cmd>lua require("harpoon.ui").nav_prev()<cr>', {
-    noremap = true
-})
 
 -- vim.keymap.set("n", "-", require("oil").open_float, { desc = "Open parent directory" })
 -- Change working directory to the location of the current file

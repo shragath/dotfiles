@@ -16,7 +16,7 @@ return {
     -- Inlay hints
     -- { 'lvimuser/lsp-inlayhints.nvim',     config = true,         branch = "anticonceal" },
     -- Diagnostics
-    { 'https://git.sr.ht/~whynothugo/lsp_lines.nvim' },
+    -- { 'https://git.sr.ht/~whynothugo/lsp_lines.nvim' },
     -- {
     --     "jose-elias-alvarez/null-ls.nvim",
     --     "jayp0521/mason-null-ls.nvim",
@@ -29,8 +29,6 @@ return {
     { 'mfussenegger/nvim-dap' },
 
     { 'onsails/lspkind-nvim' },
-
-    { 'ThePrimeagen/harpoon' },
 
     -- Comment
     { 'numToStr/Comment.nvim',  event = "BufEnter", config = true },
