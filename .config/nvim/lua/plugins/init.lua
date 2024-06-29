@@ -4,7 +4,7 @@ return {
     { "folke/neodev.nvim" },
     'nvim-lua/plenary.nvim',
     --  "ziontee113/syntax-tree-surfer"
-    { 'windwp/nvim-ts-autotag',                      config = true },
+    { 'windwp/nvim-ts-autotag',  config = true },
 
     -- indentation guides
     -- {
@@ -22,6 +22,11 @@ return {
     --     "jayp0521/mason-null-ls.nvim",
     -- },
     { 'simrat39/rust-tools.nvim' },
+    {
+        "vhyrro/luarocks.nvim",
+        priority = 1000,
+        config = true,
+    },
     { 'nvim-telescope/telescope-ui-select.nvim' },
     'jose-elias-alvarez/typescript.nvim',
 
@@ -31,10 +36,10 @@ return {
     { 'onsails/lspkind-nvim' },
 
     -- Comment
-    { 'numToStr/Comment.nvim',  event = "BufEnter", config = true },
+    { 'numToStr/Comment.nvim',                  event = "BufEnter", config = true },
 
     -- Add/change surrounds
-    { 'kylechui/nvim-surround', event = "BufEnter", config = true },
+    { 'kylechui/nvim-surround',                 event = "BufEnter", config = true },
 
     -- Undo tree history
     {
@@ -55,7 +60,7 @@ return {
     -- { 'dccsillag/magma-nvim',    build = ':UpdateRemotePlugins', ft = "python" },
 
     -- Latex support
-    { 'lervag/vimtex',             ft = "tex" },
+    { 'lervag/vimtex',           ft = "tex" },
     {
         'barreiroleo/ltex_extra.nvim',
     },
