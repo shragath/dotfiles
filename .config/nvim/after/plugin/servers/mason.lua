@@ -10,8 +10,10 @@ require('mason-lspconfig').setup({
 })
 -- Remove from list
 local installed_servers = require('mason-lspconfig').get_installed_servers()
-local skip_servers = { 'rust_analyzer', 'lua_ls', 'ltex', 'tsserver', 'vtsls', 'omnisharp_mono',
-    'intelephense' }
+local skip_servers = {
+    'rust_analyzer', 'lua_ls', 'ltex', 'tsserver', 'vtsls', 'omnisharp_mono',
+    'intelephense', 'jdtls', 'volar'
+}
 for i, server_name in ipairs(installed_servers) do
     for j, server in ipairs(skip_servers) do
         if server_name == server then

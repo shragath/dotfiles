@@ -18,18 +18,22 @@ return {
     },
     {
         'stevearc/conform.nvim',
-        opts = {
-            formatters_by_ft = {
-                -- lua = { "stylua" },
-                -- Conform will run multiple formatters sequentially
-                -- python = { "isort", "black" },
-                -- Use a sub-list to run only the first available formatter
-                javascript = { { "prettierd", "prettier" } },
-                javascriptreact = { { "prettierd", "prettier" } },
-                typescript = { { "prettierd", "prettier" } },
-                typescriptreact = { { "prettierd", "prettier" } },
-                vue = { { "prettierd", "prettier" } },
-            },
-        },
+        config = function()
+            require("conform").setup({
+                formatters_by_ft = {
+                    -- lua = { "stylua" },
+                    -- Conform will run multiple formatters sequentially
+                    -- python = { "isort", "black" },
+                    -- Use a sub-list to run only the first available formatter
+                    javascript = { { "prettierd", "prettier" } },
+                    javascriptreact = { { "prettierd", "prettier" } },
+                    typescript = { { "prettierd", "prettier" } },
+                    typescriptreact = { { "prettierd", "prettier" } },
+                    vue = { { "prettierd", "prettier" } },
+                    xml = { { "xmllint" } },
+                },
+            })
+            vim.keymap.set({ 'n', 'v' }, '<space>f', '<cmd>Format<cr>', { desc = "Format code" })
+        end
     }
 }

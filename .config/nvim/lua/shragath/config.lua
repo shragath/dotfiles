@@ -80,3 +80,10 @@ vim.o.showcmd = true
 --
 -- -- Custom plugin config
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
+
+-- Add file type
+vim.filetype.add({
+    extension = {
+        ['http'] = 'http',
+    },
+})

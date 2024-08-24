@@ -14,12 +14,12 @@ local t = luasnip.text_node
 
 local rep = require("luasnip.extras").rep
 
+require("luasnip.loaders.from_vscode").lazy_load()
 luasnip.add_snippets("lua",
     {
         s("req", fmt("local {} = require('{}')", { i(1, "default"), rep(1) }))
     }, { key = "lua" }
 )
-
 luasnip.add_snippets("tex",
     {
         s("doc", {
