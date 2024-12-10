@@ -1,11 +1,5 @@
 -- Autocompletion
 return {
-    {
-        'hrsh7th/nvim-cmp',
-        config = function()
-            require('shragath.config.cmp')
-        end
-    },
     { 'hrsh7th/cmp-nvim-lsp' },
     { 'hrsh7th/cmp-buffer' },
     { 'hrsh7th/cmp-path' },
@@ -15,11 +9,24 @@ return {
     { "hrsh7th/cmp-cmdline" },
     { "hrsh7th/cmp-nvim-lsp-document-symbol" },
     { 'nvim-telescope/telescope-symbols.nvim' },
+    {
+        'yioneko/nvim-cmp',
+        branch = 'perf-up',
+        config = function()
+            require('shragath.config.cmp')
+        end
+    },
     -- AI autocolmpletion
     {
-        "jcdickinson/codeium.nvim",
+        "monkoose/neocodeium",
+        event = "VeryLazy",
         config = function()
-            require("codeium").setup({})
-        end
+            local neocodeium = require("neocodeium")
+            neocodeium.setup()
+            vim.keymap.set("i", "<A-y>", neocodeium.accept)
+            vim.keymap.set("i", "<A-Y>", function()
+                require("neocodeium").accept_line()
+            end)
+        end,
     },
 }

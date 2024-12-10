@@ -7,6 +7,7 @@ local luasnip = require("luasnip")
 local lspkind = require('lspkind')
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 
+
 -- Setup nvim-cmp.
 local cmp = require 'cmp'
 
@@ -47,7 +48,6 @@ cmp.setup({
     },
     mapping = mapping,
     sources = {
-        { name = "codeium" },
         { name = 'nvim_lsp' },
         { name = 'nvim_lsp_signature_help' },
         { name = 'luasnip' },
@@ -62,19 +62,19 @@ cmp.setup({
             maxwidth = 50,
             ellipsis_char = '...',
             menu = {
-                codeium = "[AI]",
                 buffer = "[buf]",
                 nvim_lsp = "[LSP]",
                 nvim_lua = "[api]",
                 path = "[path]",
                 luasnip = "[snip]",
-                gh_issues = "[issues]"
+                gh_issues = "[issues]",
+                nvim_lsp_signature_help = "[sig]",
             }
         }
     },
     experimental = {
         native_menu = false,
-        ghost_text = false
+        -- ghost_text = false
     }
 })
 
@@ -101,4 +101,3 @@ cmp.event:on(
     'confirm_done',
     cmp_autopairs.on_confirm_done()
 )
-

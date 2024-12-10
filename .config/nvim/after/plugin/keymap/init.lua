@@ -88,4 +88,4 @@ local function toggle(option)
     vim.notify((not value and "  " or "no") .. option, vim.log.levels.INFO)
 end
 
-vim.keymap.set("n", "<Space>s", function() toggle("spell") end, { desc = "Toggle option 'spell'" })
+vim.keymap.set("n", "<Space>1", function() toggle("spell") end, { desc = "Toggle option 'spell'" })

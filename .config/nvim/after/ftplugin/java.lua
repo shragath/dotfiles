@@ -1,3 +1,10 @@
+-----------------------------------------------------------
+-- Tabs, indent
+-----------------------------------------------------------
+vim.opt.tabstop = 2        -- 1 tab == 2 spaces
+vim.opt.softtabstop = 2    -- Set tab options for vim
+vim.opt.shiftwidth = 2     -- Shift 2 spaces when tab
+
 function SearchFileBackwards(fn)
     local fp = vim.fn.expand('%:p')
     local pos = #fp
@@ -24,4 +31,4 @@ function BuildMavenProject()
 end
 
 vim.api.nvim_buf_set_keymap(0, "n", "<F8>", ":lua BuildMavenProject()<CR>", { silent = true })
-vim.api.nvim_command('autocmd BufWritePost *.java lua BuildMavenProject()')
+-- vim.api.nvim_command('autocmd BufWritePost *.java lua BuildMavenProject()')

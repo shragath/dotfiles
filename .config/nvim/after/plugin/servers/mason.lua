@@ -5,13 +5,13 @@ require('mason').setup()
 require('mason-lspconfig').setup({
     ensure_installed = {
         "pylsp", "intelephense", "vimls", "gopls", "cssls", "tailwindcss",
-        "bashls", "omnisharp", "r_language_server", "lua_ls", "rust_analyzer", "tsserver", "texlab"
+        "bashls", "omnisharp", "r_language_server", "lua_ls", "rust_analyzer", "ts_ls", "texlab"
     }
 })
 -- Remove from list
 local installed_servers = require('mason-lspconfig').get_installed_servers()
 local skip_servers = {
-    'rust_analyzer', 'lua_ls', 'ltex', 'tsserver', 'vtsls', 'omnisharp_mono',
+    'rust_analyzer', 'lua_ls', 'ltex', 'ts_ls', 'vtsls', 'omnisharp_mono',
     'intelephense', 'jdtls', 'volar'
 }
 for i, server_name in ipairs(installed_servers) do
