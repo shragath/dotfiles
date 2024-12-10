@@ -1,44 +1,42 @@
 -- Status Bar
 return {
-    'nvim-lualine/lualine.nvim',
-    opts = {
-        options = {
-            icons_enabled = true,
-            theme = 'auto',
-            component_separators = { left = '', right = '' },
-            section_separators = { left = '', right = '' },
-            disabled_filetypes = {
-                statusline = {},
-                winbar = {},
+    'echasnovski/mini.nvim',
+    version = '*',
+    config = function()
+        require('mini.statusline').setup()
+        require('mini.surround').setup()
+        require('mini.splitjoin').setup()
+        require('mini.indentscope').setup({
+            -- Draw options
+            draw = {
+                -- Delay (in ms) between event and start of drawing scope indicator
+                -- delay = 100,
+                -- -- Animation rule for scope's first drawing. A function which, given
+                -- next and total step numbers, returns wait time (in ms). See                -- |MiniIndentscope.gen_animation| for builtin options. To disable
+                -- animation, use require('mini.indentscope').gen_animation.none().
+                animation = require('mini.indentscope').gen_animation.none(),
+                -- Symbol priority. Increase to display on top of more symbols.
+                priority = 2,
             },
-            ignore_focus = {},
-            always_divide_middle = true,
-            globalstatus = false,
-            refresh = {
-                statusline = 1000,
-                tabline = 1000,
-                winbar = 1000,
-            }
-        },
-        sections = {
-            lualine_a = { 'mode' },
-            lualine_b = { 'branch', 'diff', 'diagnostics' },
-            lualine_c = { { 'filename', path = 1 } },
-            lualine_x = { 'encoding', 'fileformat', 'filetype' },
-            lualine_y = { 'progress' },
-            lualine_z = { 'location' }
-        },
-        inactive_sections = {
-            lualine_a = {},
-            lualine_b = {},
-            lualine_c = { { 'filename', path = 1 } },
-            lualine_x = { 'location' },
-            lualine_y = {},
-            lualine_z = {}
-        },
-        tabline = {},
-        winbar = {},
-        inactive_winbar = {},
-        extensions = {}
-    }
+            -- Module mappings. Use '' (empty string) to disable one.
+            mappings = { -- Textobjects
+                object_scope = 'ii',
+                object_scope_with_border = 'ai',
+                -- Motions (jump to respective border line; if not present - body line)                goto_top = '[i',
+                goto_bottom = ']i',
+            },
+            -- Options which control scope computation
+            options = {
+                -- Type of scope's border: which line(s) with smaller indent to                -- categorize as border. Can be one of: 'both', 'top', 'bottom', 'none'.
+                border = 'both', -- Whether to use cursor column when computing reference indent.
+                -- Useful to see incremental scopes with horizontal cursor movements.                indent_at_cursor = true,
+                -- Whether to first check input line to be a border of adjacent scope.                -- Use it if you want to place cursor on function header to get scope of
+                -- its body.
+                try_as_border = true,
+            },
+            -- Which character to use for drawing scope indicator
+            symbol = '╎',
+        })
+    end
+
 }
