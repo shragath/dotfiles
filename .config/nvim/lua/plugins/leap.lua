@@ -2,7 +2,8 @@
 return {
     'ggandor/leap.nvim',
     config = function()
-        require('leap').add_default_mappings()
+        vim.keymap.set({ 'n', 'x', 'o' }, '<Space>s', '<Plug>(leap-forward)')
+        vim.keymap.set({ 'n', 'x', 'o' }, '<Space>S', '<Plug>(leap-backward)')
+        vim.keymap.set({ 'n', 'x', 'o' }, '<Space>gs', '<Plug>(leap-from-window)')
     end,
-    event = "BufEnter"
 }

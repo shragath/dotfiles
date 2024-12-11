@@ -25,4 +25,4 @@ ls.config.set_config {
     }
 }
 
-require 'shragath.config.luasnip.snippets'
+require 'snippets'

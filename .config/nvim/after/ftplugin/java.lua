@@ -1,9 +1,9 @@
 -----------------------------------------------------------
 -- Tabs, indent
 -----------------------------------------------------------
-vim.opt.tabstop = 2        -- 1 tab == 2 spaces
-vim.opt.softtabstop = 2    -- Set tab options for vim
-vim.opt.shiftwidth = 2     -- Shift 2 spaces when tab
+vim.opt_local.tabstop = 2     -- 1 tab == 2 spaces
+vim.opt_local.softtabstop = 2 -- Set tab options for vim
+vim.opt_local.shiftwidth = 2  -- Shift 2 spaces when tab
 
 function SearchFileBackwards(fn)
     local fp = vim.fn.expand('%:p')

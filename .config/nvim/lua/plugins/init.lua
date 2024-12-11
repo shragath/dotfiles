@@ -4,36 +4,30 @@ return {
         cmd = "WhichKey"
     },
     -- { "folke/neoconf.nvim", cmd = "Neoconf" },
-    { "folke/neodev.nvim" },
     {
         'nvim-lua/plenary.nvim',
         lazy = true
     },
-    --  "ziontee113/syntax-tree-surfer"
     {
         'windwp/nvim-ts-autotag',
         config = true,
         event = "InsertEnter"
     },
-    { 'simrat39/rust-tools.nvim' },
+    {
+        'mrcjkb/rustaceanvim',
+        version = '^5', -- Recommended
+        lazy = false,   -- This plugin is already lazy
+    },
     {
         "vhyrro/luarocks.nvim",
         priority = 1000,
         config = true,
     },
-    { 'nvim-telescope/telescope-ui-select.nvim' },
-    { 'jose-elias-alvarez/typescript.nvim' },
     -- Debugging -- !ToDo()
     { 'mfussenegger/nvim-dap' },
     -- Comment
     {
         'numToStr/Comment.nvim',
-        event = "BufEnter",
-        config = true
-    },
-    -- Add/change surrounds
-    {
-        'kylechui/nvim-surround',
         event = "BufEnter",
         config = true
     },
@@ -53,14 +47,6 @@ return {
     {
         'lewis6991/gitsigns.nvim',
         config = true
-    },
-    {
-        'lervag/vimtex',
-        ft = "tex"
-    },
-    {
-        'barreiroleo/ltex_extra.nvim',
-        ft = "tex",
     },
     -- Show Colors
     { 'NvChad/nvim-colorizer.lua', config = true,         event = "VeryLazy" },
