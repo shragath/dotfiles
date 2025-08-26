@@ -36,6 +36,9 @@ opt.foldmethod = "manual"
 
 opt.cmdheight = 2 -- default 1
 
+-- Undo\\ Redo
+opt.undofile = true
+
 -- Indentation guides
 opt.listchars:append "eol:↴"
 opt.listchars:append "tab:»-"

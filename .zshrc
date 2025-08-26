@@ -181,3 +181,9 @@ export SDKMAN_DIR="$HOME/.sdkman"
 
 # Load Angular CLI autocompletion.
 source <(ng completion script)
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/shragath/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/home/shragath/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/shragath/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/shragath/Downloads/google-cloud-sdk/completion.zsh.inc'; fi

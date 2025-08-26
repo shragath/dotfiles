@@ -1,7 +1,7 @@
 -- LSP servers
 return {
-    { 'williamboman/mason.nvim',                  build = ":MasonUpdate" },
-    { 'williamboman/mason-lspconfig.nvim' },
+    { 'williamboman/mason.nvim', version = "^1.0.0", opts = {} },
+    { 'williamboman/mason-lspconfig.nvim', version = "^1.0.0" },
     { "WhoIsSethDaniel/mason-tool-installer.nvim" },
     { 'simrat39/rust-tools.nvim' },
     -- Schema information
@@ -120,7 +120,6 @@ return {
                 end
             end, vim.tbl_keys(servers))
 
-            require("mason").setup()
             local ensure_installed = {
                 "stylua",
                 "lua_ls",
