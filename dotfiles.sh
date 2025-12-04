@@ -24,7 +24,7 @@ declare -A managers_installer=(
 
 declare -A managers_tools=(
     ["ubuntu"]="ninja-build gettext cmake curl build-essential git" ["debian"]="ninja-build gettext cmake curl build-essential git"
-    ["arch"]="--needed base-devel cmake ninja curl git"   ["manjaro"]="--needed base-devel cmake ninja curl git"
+    ["arch"]="--needed base-devel cmake ninja curl git fd fzf ripgrep"   ["manjaro"]="--needed base-devel cmake ninja curl git fd fzf ripgrep"
 )
 
 # Get distro ID
@@ -44,7 +44,6 @@ command_exists() {
     # and we check the exit status ($?)
     if command -v "$cmd" &> /dev/null; then
         echo "Command '$cmd' already installed."
-        return 0 # Success
     else
         cd $HOME
         echo "Command '$cmd' not found."
@@ -57,7 +56,6 @@ command_exists() {
             echo "Installation failed."
         fi
         cd $HOME
-        return 1 # Failure
     fi
 }
 
@@ -75,12 +73,12 @@ if [[ -n "${package_managers[$distro]}" ]]; then
     # sudo $manager upgrade -y
     echo "sudo $manager $installer $tools"
     sudo $manager $installer $tools
-    echo "Checking/installing rustup"
+    echo ":: Checking/installing rustup"
     RUST_INSTALL_CMD="curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y"
     command_exists "rustup" "$RUST_INSTALL_CMD"
 
     if [[ $manager == "pacman" ]]; then
-        echo "Checking/installing yay"
+        echo ":: Checking/installing yay"
         YAY_INSTALL_CMD="git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si"
         command_exists "yay" "$YAY_INSTALL_CMD"
 
@@ -89,15 +87,15 @@ if [[ -n "${package_managers[$distro]}" ]]; then
         command_exists "wezterm" "$WEZTERM_INSTALL_CMD"
     fi
 
-    echo "Checking/installing zsh/oh my zsh"
+    echo ":: Checking/installing zsh/oh my zsh"
     ZSH_INSTALL_CMD="sudo $manager $installer zsh && curl -fsSL https://raw.githubuse.rcontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
     command_exists "zsh" "$ZSH_INSTALL_CMD"
 
-    echo "Checking/installing tmux"
+    echo ":: Checking/installing tmux"
     TMUX_INSTALL_CMD="sudo $manager $installer tmux"
     command_exists "tmux" "$TMUX_INSTALL_CMD"
 
-    echo "Checking/installing nvim nigthly"
+    echo ":: Checking/installing nvim nigthly"
     NVIM_INSTALL_CMD="git clone https://github.com/neovim/neovim && cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo && sudo make install"
     command_exists "nvim" "$NVIM_INSTALL_CMD"
     echo "installation path: $INSTALLATION_PATH"
@@ -109,14 +107,13 @@ fi
 # The local directory where the repo will be cloned
 DOTFILES_DIR="$HOME/dotfiles"
 # A backup directory for existing files
-BACKUP_DIR="$HOME/.dotfiles_backup_$(date +%Y%m%d%H%M%S)"
+BACKUP_DIR="$HOME/.dotfiles_backup/.dotfiles_backup_$(date +%Y%m%d%H%M%S)"
 # Files/directories to ignore during symlinking (e.g., this script itself, the .git dir, READMEs)
-IGNORE_FILES=("dotfiles.sh" "README.md" "LICENSE" ".git" ".gitignore" ".config")
+IGNORE_FILES=("dotfiles.sh" "README.md" "LICENSE" ".git" ".gitignore" ".config" "dotfiles")
 # Repo
 DOTFILES_REPO="https://github.com/shragath/dotfiles"
-# ---------------------
 
-echo "Starting dotfiles installation..."
+echo ":: Starting dotfiles installation..."
 
 # 1. Clone the repository
 if [ -d "$DOTFILES_DIR" ]; then
@@ -137,7 +134,6 @@ echo "Existing files will be backed up to $BACKUP_DIR"
 is_ignored() {
     local filename=$(basename "$1")
     for ignore in "${IGNORE_FILES[@]}"; do
-        # echo "$parent_name == $ignore"
         if [[ "$filename" == "$ignore" ]]; then
             return 0 # True, ignored
         fi
@@ -168,13 +164,13 @@ fi
     # If the target already exists in the home directory
     if [ -e "$target_path" ] || [ -L "$target_path" ]; then
         echo "  -> Backing up existing file/symlink: $target_path to $BACKUP_DIR"
-        # mv "$target_path" "$BACKUP_DIR/"
+        mv "$target_path" "$BACKUP_DIR/"
     fi
 
     # Create the symbolic link
     echo "  -> Linking: $source_path to $target_path"
     # -s: symbolic link; -f: force overwrite; -n: treat LINK_NAME as normal file if TARGET is a directory (prevents linking into the directory itself)
-    # ln -sfn "$source_path" "$target_path"
+    ln -sfn "$source_path" "$target_path"
 done
 
 echo "Dotfiles installation complete!"
