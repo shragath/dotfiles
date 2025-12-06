@@ -5,7 +5,8 @@ require('mason').setup()
 require('mason-lspconfig').setup({
     ensure_installed = {
         "pylsp", "intelephense", "vimls", "gopls", "cssls", "tailwindcss",
-        "bashls", "omnisharp", "r_language_server", "lua_ls", "rust_analyzer", "ts_ls", "texlab"
+        "bashls", "omnisharp", "r_language_server", "lua_ls", "rust_analyzer", "texlab", 
+        "prettier", "prettierd"
     }
 })
 -- Remove from list

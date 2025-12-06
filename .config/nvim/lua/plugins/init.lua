@@ -63,4 +63,9 @@ return {
     -- matches pairs of things (if-else, tags, etc)
     { "windwp/nvim-autopairs", event = "InsertEnter", config = true },
     { "nmac427/guess-indent.nvim", config = true },
+    {
+        "pmizio/typescript-tools.nvim",
+        dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+        opts = {},
+    },
 }

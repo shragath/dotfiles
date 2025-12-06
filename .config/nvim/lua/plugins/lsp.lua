@@ -80,13 +80,13 @@ return {
                         semanticTokensProvider = vim.NIL,
                     },
                 },
-                ts_ls = {
-                    root_dir = require("lspconfig").util.root_pattern "package.json",
-                    single_file = false,
-                    server_capabilities = {
-                        documentFormattingProvider = false,
-                    },
-                },
+                -- ts_ls = {
+                --     root_dir = require("lspconfig").util.root_pattern "package.json",
+                --     single_file = false,
+                --     server_capabilities = {
+                --         documentFormattingProvider = false,
+                --     },
+                -- },
                 jsonls = {
                     server_capabilities = {
                         documentFormattingProvider = false,
