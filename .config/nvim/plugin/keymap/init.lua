@@ -1,6 +1,5 @@
 -- Add comand C hlsearch
-vim.api.nvim_command('command C let @/=""')
-vim.api.nvim_command('command BufOnly :w|%bd|e#')
+vim.api.nvim_command('command BufOnly :%bdelete|edit #|normal`"')
 
 -- Search and replace word under cursor
 vim.keymap.set('n', '<Leader>s', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>', { noremap = true })
@@ -37,15 +36,26 @@ vim.keymap.set('t', '<esc>', '<C-\\><C-n>', {
     noremap = true
 })
 
--- Opens terminal bottom
-vim.keymap.set('n', '<Space-t>', ':left split | term<CR>', { noremap = true })
-
 -- Add move line shortcuts
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
+
+local function toggle_quickfix()
+  local windows = vim.fn.getwininfo()
+  for _, win in pairs(windows) do
+    if win["quickfix"] == 1 then
+      vim.cmd.cclose() -- Close the quickfix window if it's open
+      return
+    end
+  end
+  -- Open the quickfix window if it's not open and there are items in the list
+  if not vim.tbl_isempty(vim.fn.getqflist()) then
+    vim.cmd.copen()
+  end
+end
 -- Move in quikfix list
-vim.keymap.set('n', '<A-q>', '<cmd>copen<CR>', {
+vim.keymap.set('n', '<A-q>', toggle_quickfix, {
     noremap = true,
     silent = true,
     desc = 'Opens quick fix list'
@@ -78,7 +88,6 @@ vim.keymap.set('n', '<A-c>', '<cmd>bdelete %<CR>', {
 })
 
 
--- vim.keymap.set("n", "-", require("oil").open_float, { desc = "Open parent directory" })
 -- Change working directory to the location of the current file
 vim.keymap.set('n', '<leader>cd', "<cmd>cd %:p:h<CR><cmd>pwd<CR>")
 
@@ -89,3 +98,5 @@ local function toggle(option)
 end
 
 vim.keymap.set("n", "<Space>1", function() toggle("spell") end, { desc = "Toggle option 'spell'" })
+
+

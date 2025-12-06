@@ -1,22 +1,31 @@
 return {
     {
         "folke/which-key.nvim",
-        cmd = "WhichKey"
+        event = "VeryLazy",
+        opts = { icons = { mappings = false } },
+        keys = {
+            {
+                "<leader>?",
+                function()
+                    require("which-key").show({ global = false })
+                end,
+                desc = "Buffer Local Keymaps (which-key)",
+            },
+        },
     },
-    -- { "folke/neoconf.nvim", cmd = "Neoconf" },
     {
-        'nvim-lua/plenary.nvim',
-        lazy = true
+        "nvim-lua/plenary.nvim",
+        lazy = true,
     },
     {
-        'windwp/nvim-ts-autotag',
+        "windwp/nvim-ts-autotag",
         config = true,
-        event = "InsertEnter"
+        event = "InsertEnter",
     },
     {
-        'mrcjkb/rustaceanvim',
-        version = '^5', -- Recommended
-        lazy = false,   -- This plugin is already lazy
+        "mrcjkb/rustaceanvim",
+        version = "^5", -- Recommended
+        lazy = false, -- This plugin is already lazy
     },
     {
         "vhyrro/luarocks.nvim",
@@ -24,34 +33,34 @@ return {
         config = true,
     },
     -- Debugging -- !ToDo()
-    { 'mfussenegger/nvim-dap' },
+    { "mfussenegger/nvim-dap" },
     -- Comment
     {
-        'numToStr/Comment.nvim',
+        "numToStr/Comment.nvim",
         event = "BufEnter",
-        config = true
+        config = true,
     },
     -- Undo tree history
     {
-        'mbbill/undotree',
+        "mbbill/undotree",
         config = function()
-            vim.keymap.set('n', '<leader>ut', vim.cmd.UndotreeToggle)
-        end
+            vim.keymap.set("n", "<leader>ut", vim.cmd.UndotreeToggle, { desc = "Undo Tree" })
+        end,
     },
     -- save as sudo
     {
-        'lambdalisue/suda.vim',
-        cmd = "SudaWrite"
+        "lambdalisue/suda.vim",
+        cmd = "SudaWrite",
     },
 
     {
-        'lewis6991/gitsigns.nvim',
-        config = true
+        "lewis6991/gitsigns.nvim",
+        config = true,
     },
     -- Show Colors
-    { 'NvChad/nvim-colorizer.lua', config = true,         event = "VeryLazy" },
+    { "NvChad/nvim-colorizer.lua", config = true, event = "VeryLazy" },
     -- makes vim autocomplete (), [], {}, '', ----, etc
     -- matches pairs of things (if-else, tags, etc)
-    { 'windwp/nvim-autopairs',     event = "InsertEnter", config = true },
-
+    { "windwp/nvim-autopairs", event = "InsertEnter", config = true },
+    { "nmac427/guess-indent.nvim", config = true },
 }

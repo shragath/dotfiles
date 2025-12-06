@@ -73,6 +73,7 @@ if [[ -n "${package_managers[$distro]}" ]]; then
     # sudo $manager upgrade -y
     echo "sudo $manager $installer $tools"
     sudo $manager $installer $tools
+
     echo ":: Checking/installing rustup"
     RUST_INSTALL_CMD="curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y"
     command_exists "rustup" "$RUST_INSTALL_CMD"
@@ -98,7 +99,14 @@ if [[ -n "${package_managers[$distro]}" ]]; then
     echo ":: Checking/installing nvim nigthly"
     NVIM_INSTALL_CMD="git clone https://github.com/neovim/neovim && cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo && sudo make install"
     command_exists "nvim" "$NVIM_INSTALL_CMD"
-    echo "installation path: $INSTALLATION_PATH"
+
+    echo ":: Checking/installing n node version manager"
+    N_INSTALL_CMD="curl -L https://bit.ly/n-install | bash -s -- -y"
+    command_exists "n" "$N_INSTALL_CMD"
+
+    echo ":: Checking/installing java sdkman"
+    SDKMAN_INSTALL_CMD="curl -s "https://get.sdkman.io" | bash"
+    command_exists "sdk" "$SDKMAN_INSTALL_CMD"
 else
     echo "Unsupported distribution: $distro" >&2
     exit 1
@@ -117,7 +125,15 @@ echo ":: Starting dotfiles installation..."
 
 # 1. Clone the repository
 if [ -d "$DOTFILES_DIR" ]; then
-    echo "Dotfiles directory '$DOTFILES_DIR' already exists. Pulling latest changes."
+    # check if user wants to proceed in making symbolic links
+    while true; do
+        read -p "Dotfiles already exists, do you want to overwrite symbolic links? (y/n): " yn
+        case $yn in
+            [Yy]* ) echo "Proceeding..."; break;;
+            [Nn]* ) echo "Dotfiles installation complete!"; exit;;
+            * ) echo "Invalid response. Please answer y or n.";;
+        esac
+    done
     git -C "$DOTFILES_DIR" pull
 else
     echo "Cloning dotfiles repository from $DOTFILES_REPO into $DOTFILES_DIR"
@@ -143,6 +159,7 @@ is_ignored() {
 
 # 3. Create symbolic links
 echo "Creating symbolic links..."
+
 # Find all files and directories in the dotfiles repo (excluding the root itself)
 # and iterate over them
 fd -H -d 2 --full-path "$DOTFILES_DIR" . | while read source_path; do

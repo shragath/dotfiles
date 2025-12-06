@@ -40,6 +40,7 @@ opt.cmdheight = 2 -- default 1
 opt.undofile = true
 
 -- Indentation guides
+vim.opt.list = true
 opt.listchars:append "eol:↴"
 opt.listchars:append "tab:»-"
 opt.listchars:append "precedes:«"

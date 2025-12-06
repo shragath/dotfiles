@@ -3,7 +3,6 @@ return {
     { 'nvim-telescope/telescope-ui-select.nvim' },
     {
         'nvim-telescope/telescope.nvim',
-        cmd = "Telescope",
         dependencies = {
             -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
             { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
@@ -22,7 +21,7 @@ return {
                     find_files = {
                         theme = "dropdown",
                         previewer = false,
-                        -- find_command = { "rg", "--ignore", "--hidden", "--files" }
+                        find_command = { "rg", "--ignore", "--hidden", "--files" }
                     },
                     current_buffer_fuzzy_find = {
                         theme = "cursor",
