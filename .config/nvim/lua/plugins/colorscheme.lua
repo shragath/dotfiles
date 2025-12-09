@@ -41,7 +41,7 @@ return {
                     -- MasonNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
                     --
                     -- CursorLineNr & CursorLine colors
-                    cursorline = { bg = 'none' },
+                    -- cursorline = { bg = 'none' },
                     CursorLineNr = { fg = '#9ccfd8' },
                     LspInlayHint = { bg = '#011627', fg = '#727169' },
                     IncSearch = { bg = '#536878', fg = '#16161D' },
@@ -50,9 +50,5 @@ return {
         })
 
         vim.cmd.colorscheme('kanagawa')
-        vim.api.nvim_set_hl(0, 'IncSearch', { bg = '#536878', fg = '#16161D' })
-        vim.api.nvim_set_hl(0, 'CursorLine', { bg = 'none' })
-        vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = '#9ccfd8' })
-        vim.api.nvim_set_hl(0, 'LspInlayHint', { bg = '#011627', fg = '#727169' })
     end
 }

@@ -23,8 +23,8 @@ declare -A managers_installer=(
 )
 
 declare -A managers_tools=(
-    ["ubuntu"]="ninja-build gettext cmake curl build-essential git" ["debian"]="ninja-build gettext cmake curl build-essential git"
-    ["arch"]="--needed base-devel cmake ninja curl git fd fzf ripgrep"   ["manjaro"]="--needed base-devel cmake ninja curl git fd fzf ripgrep"
+    ["ubuntu"]="ninja-build gettext cmake curl build-essential git go" ["debian"]="ninja-build gettext cmake curl build-essential git go"
+    ["arch"]="--needed base-devel cmake ninja curl git fd fzf ripgrep go"   ["manjaro"]="--needed base-devel cmake ninja curl git fd fzf ripgrep go"
 )
 
 # Get distro ID

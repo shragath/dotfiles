@@ -10,9 +10,11 @@ opt.smartcase = true
 opt.ignorecase = true
 
 ----- Personal Preferences -----
+-- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 opt.number = true
 opt.relativenumber = true
 
+-- Configure how new splits should be opened
 opt.splitbelow = true
 opt.splitright = true
 
@@ -34,16 +36,26 @@ opt.more = false
 
 opt.foldmethod = "manual"
 
-opt.cmdheight = 2 -- default 1
+opt.cmdheight = 1 -- default 1
+
+-- Don't show the mode, since it's already in the status line
+vim.o.showmode = false
+
+-- Decrease update time
+vim.o.updatetime = 250
+
+-- Decrease mapped sequence wait time
+vim.o.timeoutlen = 300
+
+-- Save undo history
+vim.o.undofile = true
 
 -- Undo\\ Redo
 opt.undofile = true
 
+-- Show which line your cursor is on
+vim.o.cursorline = true
+
 -- Indentation guides
 vim.opt.list = true
-opt.listchars:append "eol:↴"
-opt.listchars:append "tab:»-"
-opt.listchars:append "precedes:«"
-opt.listchars:append "extends:»"
-opt.listchars:append "trail:·"
-opt.listchars:append "lead:·"
+vim.opt.listchars = { tab = '» ', trail = '·', eol = '↴', precedes = '«', extends = '»', lead = '·' }

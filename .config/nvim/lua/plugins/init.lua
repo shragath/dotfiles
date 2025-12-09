@@ -32,8 +32,6 @@ return {
         priority = 1000,
         config = true,
     },
-    -- Debugging -- !ToDo()
-    { "mfussenegger/nvim-dap" },
     -- Comment
     {
         "numToStr/Comment.nvim",
@@ -51,11 +49,6 @@ return {
     {
         "lambdalisue/suda.vim",
         cmd = "SudaWrite",
-    },
-
-    {
-        "lewis6991/gitsigns.nvim",
-        config = true,
     },
     -- Show Colors
     { "NvChad/nvim-colorizer.lua", config = true, event = "VeryLazy" },

@@ -91,6 +91,9 @@ if command -v nvim &> /dev/null; then
   alias vim=nvim
 fi
 
+alias lzg=lazygit
+alias lzd=lazydocker
+
 # Keybind
 bindkey '^Y' autosuggest-accept
 bindkey -v
@@ -118,3 +121,4 @@ export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PR
 
 # setup fzf key binding and fuzzy completion
 source <(fzf --zsh)
+alias fdcd='cd "$(fd .  ~/dev -d 2 -t d | fzf)"'

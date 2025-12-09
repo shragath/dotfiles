@@ -3,7 +3,7 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(fd . ~/dev -d 5 -t d | fzf)
+    selected=$(fd . ~/dev -d 3 -t d | fzf)
 fi
 
 if [[ -z $selected ]]; then
