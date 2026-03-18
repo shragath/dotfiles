@@ -78,13 +78,21 @@ if [[ -n "${package_managers[$distro]}" ]]; then
     RUST_INSTALL_CMD="curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y"
     command_exists "rustup" "$RUST_INSTALL_CMD"
 
+
     if [[ $manager == "pacman" ]]; then
         echo ":: Checking/installing yay"
         YAY_INSTALL_CMD="git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si"
         command_exists "yay" "$YAY_INSTALL_CMD"
 
+        if grep -E '^\[extra\]' /etc/pacman.conf >/dev/null; then
+            echo "[extra] repo is enabled"
+            echo "Checking/installing wezterm"
+            WEZTERM_INSTALL_CMD='sudo pacman -S wezterm'
+            command_exists "wezterm" "$WEZTERM_INSTALL_CMD"
+        fi
+
         echo "Checking/installing wezterm"
-        WEZTERM_INSTALL_CMD='yay wezterm-git'
+        WEZTERM_INSTALL_CMD='yay -S wezterm-git'
         command_exists "wezterm" "$WEZTERM_INSTALL_CMD"
     fi
 
@@ -113,7 +121,7 @@ else
 fi
 
 # The local directory where the repo will be cloned
-DOTFILES_DIR="$HOME/dotfiles"
+DOTFILES_DIR="$HOME/dotfiles/"
 # A backup directory for existing files
 BACKUP_DIR="$HOME/.dotfiles_backup/.dotfiles_backup_$(date +%Y%m%d%H%M%S)"
 # Files/directories to ignore during symlinking (e.g., this script itself, the .git dir, READMEs)
@@ -158,11 +166,16 @@ is_ignored() {
 }
 
 # 3. Create symbolic links
-echo "Creating symbolic links..."
+echo ":: Step creating symbolic links..."
 
 # Find all files and directories in the dotfiles repo (excluding the root itself)
 # and iterate over them
-fd -H -d 2 --full-path "$DOTFILES_DIR" . | while read source_path; do
+cd $DOTFILES_DIR
+echo "found in $(pwd): "
+echo "$(fd -H -d 2 --full-path $DOTFILES_DIR .)"
+echo ":: "
+
+fd -H -d 2 --full-path $DOTFILES_DIR | while read -r source_path; do
 filename=$(basename "$source_path")
 # Get parent directory name
 parent_dir=$(dirname "$source_path")
@@ -170,6 +183,7 @@ parent_name="$(basename "$parent_dir")/"
 if ! [[ ".config" == $(basename "$parent_dir") ]]; then
     parent_name=""
 fi
+
 echo "$source_path"
 target_path="$HOME/$parent_name$filename"
 
@@ -178,6 +192,9 @@ if is_ignored "$source_path"; then
     continue
 fi
 
+    # build full source path
+    source_file="$DOTFILES_DIR$source_path"
+
     # If the target already exists in the home directory
     if [ -e "$target_path" ] || [ -L "$target_path" ]; then
         echo "  -> Backing up existing file/symlink: $target_path to $BACKUP_DIR"
@@ -185,9 +202,9 @@ fi
     fi
 
     # Create the symbolic link
-    echo "  -> Linking: $source_path to $target_path"
+    echo "  -> Linking: $source_file to $target_path"
     # -s: symbolic link; -f: force overwrite; -n: treat LINK_NAME as normal file if TARGET is a directory (prevents linking into the directory itself)
-    ln -sfn "$source_path" "$target_path"
+    ln -sfn "$source_file" "$target_path"
 done
 
 echo "Dotfiles installation complete!"
