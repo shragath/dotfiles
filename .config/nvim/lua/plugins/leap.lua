@@ -1,6 +1,6 @@
 -- move motions
 return {
-    'ggandor/leap.nvim',
+    url = 'https://codeberg.org/andyg/leap.nvim',
     config = function()
         local clever_s = require('leap.user').with_traversal_keys('s', 'S')
         vim.keymap.set({ 'n', 'x', 'o' }, 's', function ()
