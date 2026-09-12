@@ -1,0 +1,13 @@
+local opts = { noremap = true, silent = true }
+vim.keymap.set({ 'n', 'i' }, '<Leader>_', function()
+    vim.cmd("stopinsert")
+    local current_dir = vim.fn.getcwd()
+    local command = string.format('cd "%s" && go test', current_dir)
+    vim.cmd(string.format('silent !tmux send -t 0 "%s" Enter', command))
+end, opts)
+vim.keymap.set({ 'n', 'i' }, '<Leader>-', function()
+    vim.cmd("stopinsert")
+    local current_dir = vim.fn.getcwd()
+    local command = string.format('cd "%s" && go run %%', current_dir)
+    vim.cmd(string.format('silent !tmux send -t 0 "%s" Enter', command))
+end, opts)
