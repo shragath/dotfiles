@@ -24,7 +24,7 @@ opt.shada = { "'10", "<0", "s10", "h" }
 opt.swapfile = false
 
 -- Don't have `o` add a comment
-opt.formatoptions:remove "o"
+opt.formatoptions:remove("o")
 
 opt.wrap = true
 opt.linebreak = true
@@ -37,6 +37,8 @@ opt.more = false
 opt.foldmethod = "manual"
 
 opt.cmdheight = 1 -- default 1
+
+opt.colorcolumn = "80"
 
 -- Don't show the mode, since it's already in the status line
 vim.o.showmode = false
@@ -58,4 +60,8 @@ vim.o.cursorline = true
 
 -- Indentation guides
 vim.opt.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', eol = '↴', precedes = '«', extends = '»', lead = '·' }
+vim.opt.listchars = { tab = "» ", trail = "·", eol = "↴", precedes = "«", extends = "»", lead = "·" }
+
+-- disable netrw
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
